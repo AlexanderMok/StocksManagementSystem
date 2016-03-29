@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elite.commoditymanagement.dao.BillInfoMapper">
+	<resultMap id="BaseResultMap" type="com.elite.commoditymanagement.bean.BillInfo">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="action_tag" property="actionTag" jdbcType="VARCHAR" />
+		<result column="action_id" property="actionId" jdbcType="VARCHAR" />
+		<result column="item_id" property="itemId" jdbcType="VARCHAR" />
+		<result column="action_price" property="actionPrice" jdbcType="DOUBLE" />
+		<result column="action_amount" property="actionAmount"	jdbcType="INTEGER" />
+		<result column="supp_id" property="suppId" jdbcType="VARCHAR" />
+		<result column="action_date" property="actionDate" jdbcType="DATE" />
+		<result column="action_person" property="actionPerson" jdbcType="VARCHAR" />
+		<result column="note" property="note" jdbcType="VARCHAR" />
+		<result column="item_name" property="itemName" jdbcType="VARCHAR" />
+		<result column="supp_name" property="suppName" jdbcType="VARCHAR" />
+		<result column="cata_name" property="cataName" jdbcType="VARCHAR" />
+		<result column="unit_name" property="unitName" jdbcType="VARCHAR" />
+		<result column="supp_id" property="suppId" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+
+
+
+	<sql id="Base_Column_List">
+		id, action_tag, action_id, item_name, action_price,
+		action_amount,
+		supp_name, action_date, action_person, note,
+		unit_name,cata_name,item_id,supp_id
+	</sql>
+
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.elite.commoditymanagement.bean.BillInfoExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from
+		(select distinct
+		`tbl_bill`.`id` AS
+		`id`,(if((`tbl_bill`.`action_tag` =
+		1),'进货','出货')) AS
+		`action_tag`,`tbl_bill`.`action_id` AS
+		`action_id`,`tbl_items`.`item_name` AS
+		`item_name`,`tbl_bill`.`action_price` AS
+		`action_price`,`tbl_bill`.`action_amount` AS
+		`action_amount`,`tbl_suppliers`.`supp_name` AS
+		`supp_name`,`tbl_bill`.`action_date` AS
+		`action_date`,`tbl_bill`.`action_person` AS
+		`action_person`,`tbl_bill`.`note` AS `note`,`tbl_unit`.`unit_name` AS
+		`unit_name`,`tbl_catagorgy`.`catagorgy_name` AS
+		`cata_name`,`tbl_items`.`item_id` AS
+		`item_id`,`tbl_suppliers`.`supp_id` AS `supp_id` from ((((`tbl_bill`
+		join `tbl_suppliers`) join `tbl_items`) join `tbl_catagorgy`) join
+		`tbl_unit`) where ((`tbl_bill`.`supp_id` = `tbl_suppliers`.`supp_id`)
+		and (`tbl_bill`.`item_id` = `tbl_items`.`item_id`) and
+		(`tbl_items`.`catagorgy_id` = `tbl_catagorgy`.`catagorgy_id`) and
+		(`tbl_items`.`unit_id` = `tbl_unit`.`unit_id`))) AS view
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+
+	<select id="selectByView" resultMap="BaseResultMap">
+		select distinct
+		`tbl_bill`.`id` AS `id`,(if((`tbl_bill`.`action_tag` = 1),'进货','出货'))	AS
+		`action_tag`,`tbl_bill`.`action_id` AS
+		`action_id`,`tbl_items`.`item_name` AS
+		`item_name`,`tbl_bill`.`action_price` AS
+		`action_price`,`tbl_bill`.`action_amount` AS
+		`action_amount`,`tbl_suppliers`.`supp_name` AS
+		`supp_name`,`tbl_bill`.`action_date` AS
+		`action_date`,`tbl_bill`.`action_person` AS
+		`action_person`,`tbl_bill`.`note` AS `note`,`tbl_unit`.`unit_name` AS
+		`unit_name`,`tbl_catagorgy`.`catagorgy_name` AS
+		`cata_name`,`tbl_items`.`item_id` AS
+		`item_id`,`tbl_suppliers`.`supp_id` AS `supp_id` from ((((`tbl_bill`
+		join `tbl_suppliers`) join `tbl_items`) join `tbl_catagorgy`) join
+		`tbl_unit`) where ((`tbl_bill`.`supp_id` = `tbl_suppliers`.`supp_id`)
+		and (`tbl_bill`.`item_id` = `tbl_items`.`item_id`) and
+		(`tbl_items`.`catagorgy_id` = `tbl_catagorgy`.`catagorgy_id`) and
+		(`tbl_items`.`unit_id` = `tbl_unit`.`unit_id`))
+		order by
+		`tbl_bill`.`action_date` desc
+	</select>
+
+</mapper>

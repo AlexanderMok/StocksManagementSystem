@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE proxool>
+
+<proxool>
+	<!--数据源的别名 -->
+	<alias>commodity</alias>
+	<driver-url>jdbc:mysql://localhost/commodity?useUnicode=true&amp;characterEncoding=UTF8</driver-url>
+	<driver-class>com.mysql.jdbc.Driver</driver-class>
+	<driver-properties>
+		<property name="user" value="root" />
+		<property name="password" value="" />
+	</driver-properties>
+	<maximum-connection-count>100</maximum-connection-count>
+	<minimum-connection-count>10</minimum-connection-count>
+	<house-keeping-sleep-time>90000</house-keeping-sleep-time>
+	<maximum-new-connections>10</maximum-new-connections>
+	<prototype-count>5</prototype-count>
+	<test-before-use>true</test-before-use>
+	<house-keeping-test-sql>select 1</house-keeping-test-sql>
+	<!-- 连接池使用状况统计 -->
+	<statistics>15s,10m,1d</statistics>
+	<statistics-log-level>WARN</statistics-log-level>
+</proxool>  

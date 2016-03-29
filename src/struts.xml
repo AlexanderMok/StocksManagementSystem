@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.action.extension" value=",,json,xml" />
+
+
+	<!-- Overwrite Convention -->
+	<constant name="struts.convention.action.suffix" value="Action" />
+	<constant name="struts.convention.action.mapAllMatches" value="true" />
+	<constant name="struts.convention.default.parent.package" value="default" />
+
+	<constant name="struts.convention.package.locators" value="action" />
+	<!-- <package name="default" namespace="/" extends="struts-default"> -->
+
+	<package name="default" extends="rest-default,json-default">
+
+		<interceptors>
+			<interceptor name="permission" class="com.elite.commoditymanagement.util.AuthorizationInterceptor"/>
+			
+			<interceptor-stack name="myStack">
+				<interceptor-ref name="permission">
+					<param name="excludeMethods">valid,logout,index</param>
+				</interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		
+		<default-interceptor-ref name="myStack" />
+		
+		<global-results>
+           <result name="error">/WEB-INF/content/error.jsp</result>
+        </global-results>
+        
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception"
+				result="error" />
+		</global-exception-mappings>
+		
+		
+	</package>
+	<!-- User,Cata,Unit,Supp 四个Action的方法需要管理员权限，因此将其置于此包下-->
+	<package name="admin" extends="rest-default,json-default">
+		<interceptors>
+			<interceptor name="permission" class="com.elite.commoditymanagement.util.AuthorizationInterceptor"/>
+			<interceptor name="role" class="com.elite.commoditymanagement.util.RoleInterceptor"/>
+			
+			<interceptor-stack name="myStack">
+				<interceptor-ref name="permission">
+					<param name="excludeMethods">valid,logout,index</param>
+				</interceptor-ref>
+				<interceptor-ref name="role">
+					<param name="includeMethods">list,add*,edit*,update*,delete*</param>
+					<param name="excludeMethods">valid,logout,index</param>
+				</interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		
+		<default-interceptor-ref name="myStack" />
+		
+		<global-results>
+           <result name="error">/WEB-INF/content/error.jsp</result>
+           <result name="login">/WEB-INF/content/user-login.jsp</result>
+        </global-results>
+        
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception"
+				result="error" />
+		</global-exception-mappings>
+	</package>
+
+</struts>

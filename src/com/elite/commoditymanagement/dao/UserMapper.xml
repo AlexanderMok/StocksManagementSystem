@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elite.commoditymanagement.dao.UserMapper">
+	<resultMap id="BaseResultMap" type="com.elite.commoditymanagement.model.User">
+		<id column="user_id" property="userId" jdbcType="INTEGER" />
+		<result column="role_id" property="roleId" jdbcType="INTEGER" />
+		<result column="work_code" property="workCode" jdbcType="VARCHAR" />
+		<result column="user_name" property="userName" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="role_name" property="roleName" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		user_id, role_id, work_code, user_name, password, role_name
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.elite.commoditymanagement.model.UserExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from 
+		(select `tbl_user`.`user_id` AS `user_id`,`tbl_user`.`work_code` AS
+		`work_code`,`tbl_user`.`user_name` AS
+		`user_name`,`tbl_user`.`password` AS `password`,`tbl_role`.`role_name`
+		AS `role_name`,`tbl_role`.`role_id` AS `role_id` from (`tbl_role` join
+		`tbl_user`) where (`tbl_user`.`role_id` = `tbl_role`.`role_id`) ) as userview
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from tbl_user
+		where user_id = #{userId,jdbcType=INTEGER}
+	</select>
+	<select id="selectAllUser" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		(select `tbl_user`.`user_id` AS `user_id`,`tbl_user`.`work_code` AS
+		`work_code`,`tbl_user`.`user_name` AS
+		`user_name`,`tbl_user`.`password` AS `password`,`tbl_role`.`role_name`
+		AS `role_name`,`tbl_role`.`role_id` AS `role_id` from (`tbl_role` join
+		`tbl_user`) where (`tbl_user`.`role_id` = `tbl_role`.`role_id`) ) as userview
+	</select>
+	
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		tbl_user
+		where user_id = #{userId,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.elite.commoditymanagement.model.UserExample">
+		delete from tbl_user
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.elite.commoditymanagement.model.User">
+		insert into tbl_user (user_id,
+		role_id, work_code,
+		user_name, password)
+		values
+		(#{userId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER},
+		#{workCode,jdbcType=VARCHAR},
+		#{userName,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.elite.commoditymanagement.model.User">
+		insert into tbl_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="roleId != null">
+				role_id,
+			</if>
+			<if test="workCode != null">
+				work_code,
+			</if>
+			<if test="userName != null">
+				user_name,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userId != null">
+				#{userId,jdbcType=INTEGER},
+			</if>
+			<if test="roleId != null">
+				#{roleId,jdbcType=INTEGER},
+			</if>
+			<if test="workCode != null">
+				#{workCode,jdbcType=VARCHAR},
+			</if>
+			<if test="userName != null">
+				#{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.elite.commoditymanagement.model.UserExample"
+		resultType="java.lang.Integer">
+		select count(*) from 
+		(select `tbl_user`.`user_id` AS `user_id`,`tbl_user`.`work_code` AS
+		`work_code`,`tbl_user`.`user_name` AS
+		`user_name`,`tbl_user`.`password` AS `password`,`tbl_role`.`role_name`
+		AS `role_name`,`tbl_role`.`role_id` AS `role_id` from (`tbl_role` join
+		`tbl_user`) where (`tbl_user`.`role_id` = `tbl_role`.`role_id`) ) as view
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update tbl_user
+		<set>
+			<if test="record.userId != null">
+				user_id = #{record.userId,jdbcType=INTEGER},
+			</if>
+			<if test="record.roleId != null">
+				role_id = #{record.roleId,jdbcType=INTEGER},
+			</if>
+			<if test="record.workCode != null">
+				work_code = #{record.workCode,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userName != null">
+				user_name = #{record.userName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.password != null">
+				password = #{record.password,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update tbl_user
+		set user_id = #{record.userId,jdbcType=INTEGER},
+		role_id = #{record.roleId,jdbcType=INTEGER},
+		work_code =
+		#{record.workCode,jdbcType=VARCHAR},
+		user_name =
+		#{record.userName,jdbcType=VARCHAR},
+		password =
+		#{record.password,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.elite.commoditymanagement.model.User">
+		update tbl_user
+		<set>
+			<if test="roleId != null">
+				role_id = #{roleId,jdbcType=INTEGER},
+			</if>
+			<if test="workCode != null">
+				work_code = #{workCode,jdbcType=VARCHAR},
+			</if>
+			<if test="userName != null">
+				user_name = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where user_id = #{userId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.elite.commoditymanagement.model.User">
+		update tbl_user
+		set role_id = #{roleId,jdbcType=INTEGER},
+		work_code =
+		#{workCode,jdbcType=VARCHAR},
+		user_name = #{userName,jdbcType=VARCHAR},
+		password = #{password,jdbcType=VARCHAR}
+		where user_id =
+		#{userId,jdbcType=INTEGER}
+	</update>
+</mapper>

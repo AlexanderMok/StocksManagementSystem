@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elite.commoditymanagement.dao.CatagorgyMapper" >
+  <resultMap id="BaseResultMap" type="com.elite.commoditymanagement.model.Catagorgy" >
+    <id column="catagorgy_id" property="catagorgyId" jdbcType="INTEGER" />
+    <result column="catagorgy_parent_id" property="catagorgyParentId" jdbcType="INTEGER" />
+    <result column="catagorgy_name" property="catagorgyName" jdbcType="VARCHAR" />
+    <!-- <collection property="items" resultMap="com.elite.commoditymanagement.dao.ItemMapper.BaseResultMap"/> -->
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    catagorgy_id, catagorgy_parent_id, catagorgy_name
+  </sql>
+  
+  <select id="selectByPid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  	select
+  	<include refid="Base_Column_List" />
+    from tbl_catagorgy
+    where catagorgy_parent_id = #{pid,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.elite.commoditymanagement.model.CatagorgyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tbl_catagorgy
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_catagorgy
+    where catagorgy_id = #{catagorgyId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tbl_catagorgy
+    where catagorgy_id = #{catagorgyId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.elite.commoditymanagement.model.CatagorgyExample" >
+    delete from tbl_catagorgy
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.elite.commoditymanagement.model.Catagorgy" >
+    insert into tbl_catagorgy (catagorgy_id, catagorgy_parent_id, catagorgy_name
+      )
+    values (#{catagorgyId,jdbcType=INTEGER}, #{catagorgyParentId,jdbcType=INTEGER}, #{catagorgyName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.elite.commoditymanagement.model.Catagorgy" >
+    insert into tbl_catagorgy
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="catagorgyId != null" >
+        catagorgy_id,
+      </if>
+      <if test="catagorgyParentId != null" >
+        catagorgy_parent_id,
+      </if>
+      <if test="catagorgyName != null" >
+        catagorgy_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="catagorgyId != null" >
+        #{catagorgyId,jdbcType=INTEGER},
+      </if>
+      <if test="catagorgyParentId != null" >
+        #{catagorgyParentId,jdbcType=INTEGER},
+      </if>
+      <if test="catagorgyName != null" >
+        #{catagorgyName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.elite.commoditymanagement.model.CatagorgyExample" resultType="java.lang.Integer" >
+    select count(*) from tbl_catagorgy
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tbl_catagorgy
+    <set >
+      <if test="record.catagorgyId != null" >
+        catagorgy_id = #{record.catagorgyId,jdbcType=INTEGER},
+      </if>
+      <if test="record.catagorgyParentId != null" >
+        catagorgy_parent_id = #{record.catagorgyParentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.catagorgyName != null" >
+        catagorgy_name = #{record.catagorgyName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tbl_catagorgy
+    set catagorgy_id = #{record.catagorgyId,jdbcType=INTEGER},
+      catagorgy_parent_id = #{record.catagorgyParentId,jdbcType=INTEGER},
+      catagorgy_name = #{record.catagorgyName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.elite.commoditymanagement.model.Catagorgy" >
+    update tbl_catagorgy
+    <set >
+      <if test="catagorgyParentId != null" >
+        catagorgy_parent_id = #{catagorgyParentId,jdbcType=INTEGER},
+      </if>
+      <if test="catagorgyName != null" >
+        catagorgy_name = #{catagorgyName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where catagorgy_id = #{catagorgyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.elite.commoditymanagement.model.Catagorgy" >
+    update tbl_catagorgy
+    set catagorgy_parent_id = #{catagorgyParentId,jdbcType=INTEGER},
+      catagorgy_name = #{catagorgyName,jdbcType=VARCHAR}
+    where catagorgy_id = #{catagorgyId,jdbcType=INTEGER}
+  </update>
+</mapper>
