@@ -166,7 +166,8 @@
 								<c:if test="${curPage == lastPage}">
 									尾页
 								</c:if>&nbsp;&nbsp;&nbsp;第&nbsp;<input type="text" id="toPage"/>&nbsp;页&nbsp;&nbsp;
-								<input type="submit" id="btn_page" class="btn" value="确定"/>
+								<input type="submit" id="btn_page" class="btn btn-primary" value="确定"/>&nbsp;
+								<input type="button" id="btn_download" class="btn btn-primary" value="导出报表"/>
 						</div>
 					<input type="hidden" id="lastPage" value="${lastPage}"/>
 					<input type="hidden" id="curPage" value="${curPage}"/>
@@ -176,5 +177,19 @@
 		</div>
 	</div>
 <script type="text/javascript" src="resources/back_end/js/page.js"></script>
+<script>
+$("#btn_download").click(function(){
+	$.ajax({
+		type:"get",
+		url:"excel!index",
+		success:function(){
+			alert("报表生成完成，请查看桌面item-report.xls文件。");
+		},
+		error:function(){
+			alert("抱歉，生成失败，请查看文件是否被占用。");
+		}
+	});
+});
+</script>
 </body>
 </html>
