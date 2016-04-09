@@ -101,26 +101,7 @@
 		</if>
 		<include refid="Base_Column_List" />
 		from
-		(select distinct
-		`tbl_bill`.`id` AS
-		`id`,(if((`tbl_bill`.`action_tag` =
-		1),'进货','出货')) AS
-		`action_tag`,`tbl_bill`.`action_id` AS
-		`action_id`,`tbl_items`.`item_name` AS
-		`item_name`,`tbl_bill`.`action_price` AS
-		`action_price`,`tbl_bill`.`action_amount` AS
-		`action_amount`,`tbl_suppliers`.`supp_name` AS
-		`supp_name`,`tbl_bill`.`action_date` AS
-		`action_date`,`tbl_bill`.`action_person` AS
-		`action_person`,`tbl_bill`.`note` AS `note`,`tbl_unit`.`unit_name` AS
-		`unit_name`,`tbl_catagorgy`.`catagorgy_name` AS
-		`cata_name`,`tbl_items`.`item_id` AS
-		`item_id`,`tbl_suppliers`.`supp_id` AS `supp_id` from ((((`tbl_bill`
-		join `tbl_suppliers`) join `tbl_items`) join `tbl_catagorgy`) join
-		`tbl_unit`) where ((`tbl_bill`.`supp_id` = `tbl_suppliers`.`supp_id`)
-		and (`tbl_bill`.`item_id` = `tbl_items`.`item_id`) and
-		(`tbl_items`.`catagorgy_id` = `tbl_catagorgy`.`catagorgy_id`) and
-		(`tbl_items`.`unit_id` = `tbl_unit`.`unit_id`))) AS view
+		billinfoview
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
 		</if>
@@ -131,25 +112,10 @@
 
 	<select id="selectByView" resultMap="BaseResultMap">
 		select distinct
-		`tbl_bill`.`id` AS `id`,(if((`tbl_bill`.`action_tag` = 1),'进货','出货'))	AS
-		`action_tag`,`tbl_bill`.`action_id` AS
-		`action_id`,`tbl_items`.`item_name` AS
-		`item_name`,`tbl_bill`.`action_price` AS
-		`action_price`,`tbl_bill`.`action_amount` AS
-		`action_amount`,`tbl_suppliers`.`supp_name` AS
-		`supp_name`,`tbl_bill`.`action_date` AS
-		`action_date`,`tbl_bill`.`action_person` AS
-		`action_person`,`tbl_bill`.`note` AS `note`,`tbl_unit`.`unit_name` AS
-		`unit_name`,`tbl_catagorgy`.`catagorgy_name` AS
-		`cata_name`,`tbl_items`.`item_id` AS
-		`item_id`,`tbl_suppliers`.`supp_id` AS `supp_id` from ((((`tbl_bill`
-		join `tbl_suppliers`) join `tbl_items`) join `tbl_catagorgy`) join
-		`tbl_unit`) where ((`tbl_bill`.`supp_id` = `tbl_suppliers`.`supp_id`)
-		and (`tbl_bill`.`item_id` = `tbl_items`.`item_id`) and
-		(`tbl_items`.`catagorgy_id` = `tbl_catagorgy`.`catagorgy_id`) and
-		(`tbl_items`.`unit_id` = `tbl_unit`.`unit_id`))
+		from
+		billinfoview
 		order by
-		`tbl_bill`.`action_date` desc
+		action_date desc
 	</select>
 
 </mapper>

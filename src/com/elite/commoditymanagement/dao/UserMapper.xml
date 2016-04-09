@@ -85,11 +85,7 @@
 		</if>
 		<include refid="Base_Column_List" />
 		from 
-		(select `tbl_user`.`user_id` AS `user_id`,`tbl_user`.`work_code` AS
-		`work_code`,`tbl_user`.`user_name` AS
-		`user_name`,`tbl_user`.`password` AS `password`,`tbl_role`.`role_name`
-		AS `role_name`,`tbl_role`.`role_id` AS `role_id` from (`tbl_role` join
-		`tbl_user`) where (`tbl_user`.`role_id` = `tbl_role`.`role_id`) ) as userview
+		userview
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
 		</if>
@@ -108,11 +104,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from
-		(select `tbl_user`.`user_id` AS `user_id`,`tbl_user`.`work_code` AS
-		`work_code`,`tbl_user`.`user_name` AS
-		`user_name`,`tbl_user`.`password` AS `password`,`tbl_role`.`role_name`
-		AS `role_name`,`tbl_role`.`role_id` AS `role_id` from (`tbl_role` join
-		`tbl_user`) where (`tbl_user`.`role_id` = `tbl_role`.`role_id`) ) as userview
+		userview
 	</select>
 	
 	
@@ -177,11 +169,7 @@
 	<select id="countByExample" parameterType="com.elite.commoditymanagement.model.UserExample"
 		resultType="java.lang.Integer">
 		select count(*) from 
-		(select `tbl_user`.`user_id` AS `user_id`,`tbl_user`.`work_code` AS
-		`work_code`,`tbl_user`.`user_name` AS
-		`user_name`,`tbl_user`.`password` AS `password`,`tbl_role`.`role_name`
-		AS `role_name`,`tbl_role`.`role_id` AS `role_id` from (`tbl_role` join
-		`tbl_user`) where (`tbl_user`.`role_id` = `tbl_role`.`role_id`) ) as view
+		userview
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
 		</if>

@@ -93,39 +93,7 @@
 		select
 		<include refid="Base_Column_List" />
 			from
-			(select distinct
-			tbl_items.item_id AS item_id,
-			tbl_items.item_name AS item_name,
-			tbl_items.item_pic AS item_pic,
-			tbl_catagorgy.catagorgy_name AS
-			cata_name,
-			tbl_items.retail_price AS retail_price,
-			(IFNULL(`tbl_import_bill`.`import_price`,0)) AS import_price,
-			((IFNULL(`tbl_import_bill`.`import_amount`,0)) -
-			(IFNULL(`tbl_export_bill`.`export_amount`,0))) AS stocks,
-			tbl_suppliers.supp_name AS supp_name,
-			tbl_export_bill.supp_id AS
-			supp_id,
-			tbl_suppliers.phone AS phone,
-			tbl_suppliers.contact_person AS
-			contact_person,
-			tbl_unit.unit_name AS unit_name,
-			tbl_items.note AS note,
-			tbl_items.safe_amount AS safe_amount
-			from (((((`tbl_items` left join `tbl_import_bill`
-			on((`tbl_items`.`item_id`
-			= `tbl_import_bill`.`item_id`))) left join
-			`tbl_export_bill`
-			on((`tbl_import_bill`.`item_id` =
-			`tbl_export_bill`.`item_id`))) join
-			`tbl_suppliers`) join `tbl_unit`)
-			join `tbl_catagorgy`)
-			where ((`tbl_items`.`supp_id` =
-			`tbl_suppliers`.`supp_id`) and
-			(`tbl_items`.`unit_id` =
-			`tbl_unit`.`unit_id`) and
-			(`tbl_items`.`catagorgy_id` =
-			`tbl_catagorgy`.`catagorgy_id`))) AS itemview
+			iteminfoview
 		<if test="_parameter != null">
 			<include refid="Example_Where_Clause" />
 		</if>
@@ -135,28 +103,9 @@
 	</select>	
 	
 	<select id="selectByView" resultMap="BaseResultMap">
-		select DISTINCT
-		tbl_items.item_id AS item_id,
-		tbl_items.item_name AS item_name,
-		tbl_items.item_pic AS item_pic,
-		tbl_catagorgy.catagorgy_name AS cata_name,
-		tbl_items.retail_price AS retail_price,
-		(IFNULL(`tbl_import_bill`.`import_price`,0)) AS import_price,
-		((IFNULL(`tbl_import_bill`.`import_amount`,0)) - (IFNULL(`tbl_export_bill`.`export_amount`,0))) AS stocks,
-		tbl_suppliers.supp_name AS supp_name,
-		tbl_export_bill.supp_id AS supp_id,
-		tbl_suppliers.phone AS phone,
-		tbl_suppliers.contact_person AS contact_person,
-		tbl_unit.unit_name AS unit_name,
-		tbl_items.note AS note,
-		tbl_items.safe_amount AS safe_amount
-		from (((((`tbl_items` left join `tbl_import_bill` on((`tbl_items`.`item_id`
-		= `tbl_import_bill`.`item_id`))) left join `tbl_export_bill`
-		on((`tbl_import_bill`.`item_id` = `tbl_export_bill`.`item_id`))) join
-		`tbl_suppliers`) join `tbl_unit`) join `tbl_catagorgy`)
-		where ((`tbl_items`.`supp_id` = `tbl_suppliers`.`supp_id`) and
-		(`tbl_items`.`unit_id` = `tbl_unit`.`unit_id`) and
-		(`tbl_items`.`catagorgy_id` = `tbl_catagorgy`.`catagorgy_id`))
+		select
+		from
+		iteminfoview	
 		order by
 		stocks
 	</select>
