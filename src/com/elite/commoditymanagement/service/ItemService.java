@@ -14,6 +14,10 @@ public interface ItemService {
 	int deleteByPrimaryKey(String itemId);
 	
 	Item selectByPrimaryKey(String itemId);
+	
+	List<ItemInfo> selectStocksById(String itemId, String importPrice);
+	
+	List<ItemInfo> selectStocksById(String itemId);
 
 	List<Item> selectBySuppId(String suppId);
 	

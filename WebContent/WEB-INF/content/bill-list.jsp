@@ -137,8 +137,8 @@
 								<td><s:property value="actionPerson" /></td>
 								<td><s:property value="note" /></td>
 								<td>
-									<a class="link-update" href="item!inItemOne?itemId=${i.itemId}&itemName=${i.itemName}&unitName=${i.unitName}&cataName=${i.cataName}&suppId=${i.suppId}&suppName=${i.suppName}">商品进货</a>
-									<a class="link-update" href="item!outItemOne?itemId=${i.itemId}&itemName=${i.itemName}&unitName=${i.unitName}&cataName=${i.cataName}&suppId=${i.suppId}&suppName=${i.suppName}">商品出货</a>
+									<a class="link-update" href="item!inItemOne?itemId=${i.itemId}&itemName=${i.itemName}&unitName=${i.unitName}&cataName=${i.cataName}&suppId=${i.suppId}&suppName=${i.suppName}&actionPrice=${i.actionPrice}">商品进货</a>
+									<a class="link-update" href="item!outItemOne?itemId=${i.itemId}&itemName=${i.itemName}&unitName=${i.unitName}&cataName=${i.cataName}&suppId=${i.suppId}&suppName=${i.suppName}&actionPrice=${i.actionPrice}">商品出货</a>
 								</td>
 							</tr>
 						</s:iterator>

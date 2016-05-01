@@ -34,58 +34,70 @@
 					enctype="multipart/form-data">
 					<table class="insert-tab" width="100%">
 						<tbody>
-							<tr>
-								<th>进货编号</th>
-								<td><input class="common-text" name="importBill.importId"
-									size="50" type="text" placeholder="请输入出货编号" required></td>
-							</tr>
+							
 							<tr>
 								<th>商品编号：</th>
 								<td>
-									<input type = "text" name="importBill.itemId" value="${itemId}" disabled/>
-									<input type = "hidden" name="importBill.itemId" value="${itemId}"/>
+									<input type = "text" class="common-text price"
+									 size="50" name="exportBill.itemId" value="${itemId}" disabled/>
+									<input type = "hidden" name="exportBill.itemId" value="${itemId}"/>
 								</td>
 							</tr>
 							<tr>
 								<th>商品名：</th>
 								<td>
-									<input type = "text" name="itemName" value="${itemName}" disabled/>
+									<input type = "text" class="common-text price"
+									 size="50" name="itemName" value="${itemName}" disabled/>
 								</td>
 							</tr>
 							<tr>
 								<th>商品单位：</th>
 								<td>
-									<input type = "text" name="unitName" value="${unitName}" disabled/>
+									<input type = "text" class="common-text price"
+									 size="50" name="unitName" value="${unitName}" disabled/>
 								</td>
 							</tr>
 							<tr>
 								<th>商品种类：</th>
 								<td>
-									<input type = "text" name="cataName" value="${cataName}" disabled/>
+									<input type = "text" class="common-text price"
+									 size="50" name="cataName" value="${cataName}" disabled/>
 								</td>
 							</tr>
 							<tr>
 								<th>供应商：</th>
 								<td>
-									<input type="hidden" name="importBill.suppId" value="${suppId}"/>
-									<input type = "text" name="suppName" value="${suppName}" disabled/>
+									<input type="hidden" name="exportBill.suppId" value="${suppId}"/>
+									<input type = "text" class="common-text price"
+									 size="50" name="suppName" value="${suppName}" disabled/>
 								</td>
 							</tr>
 							<tr>
+								<th>进货价格（成本价格）</th>
+								<td><input class="common-text price"
+									 size="50" type="text"
+									value="${importPrice}" disabled></td>
+							</tr>
+							<tr>
+								<th>出货编号</th>
+								<td><input class="common-text" name="exportBill.exportId" id="title"
+									size="50" type="text" placeholder="请输入出货编号" required></td>
+							</tr>
+							<tr>
 								<th>数量</th>
-								<td><input class="common-text amount"
-									name="importBill.importAmount" size="50" type="text"
-									placeholder="请输入数量" value="${stocks}" required></td>
+								<td><input class="common-text amount outNum"
+									name="exportBill.exportAmount" size="50" type="text"
+									placeholder="当前库存量${stocks}" value="${stocks}" required></td>
 							</tr>
 							<tr>
 								<th>出货价格（零售价）</th>
 								<td><input class="common-text price"
-									name="importBill.importPrice" size="50" type="text"
+									name="exportBill.exportPrice" size="50" type="text"
 									placeholder="请输入价格" value="${retailPrice}" required></td>
 							</tr>
 							<tr>
 								<th>时间：</th>
-								<td><input type="date" name="importBill.importDate"
+								<td><input type="date" name="exportBill.exportDate"
 									class="common-text date" size="50"
 									value="<%=new SimpleDateFormat("yyyy-MM-dd").format(new Date())%>"
 									placeholder="<%=new SimpleDateFormat("yyyy-MM-dd").format(new Date())%>" />
@@ -94,12 +106,13 @@
 							<tr>
 								<th>执行人：</th>
 								<td>
-									<input type="text" name="importBill.importPerson" value="${user.userName}"/>
+									<input type="text" value="${user.userName}" disabled/>
+									<input type="hidden" name="exportBill.exportPerson" value="${user.userName}"/>
 								</td>
 							</tr>
 							<tr>
 								<th>备注</th>
-								<td><input class="common-text" name="importBill.note"
+								<td><input class="common-text" name="exportBill.note"
 									size="50" type="text" value="商品出货" placeholder="商品出货" required></td>
 							</tr>
 							<tr>
@@ -115,7 +128,12 @@
 		</div>
 	</div>
 	<!--/main-->
-<script type="text/javascript" src="resources/back_end/js/inputPosition.js"></script>
-<script type="text/javascript" src="resources/back_end/js/page.js"></script>	
 </body>
+<script>
+$(function(){
+	$("#title").focus();
+});
+</script>	
+<script type="text/javascript" src="resources/back_end/js/inputPosition.js"></script>
+<script type="text/javascript" src="resources/back_end/js/page.js"></script>
 </html>

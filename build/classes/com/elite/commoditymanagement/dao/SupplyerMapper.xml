@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elite.commoditymanagement.dao.SupplyerMapper">
+	<resultMap id="BaseResultMap" type="com.elite.commoditymanagement.model.Supplyer">
+		<id column="supp_id" property="suppId" jdbcType="VARCHAR" />
+		<result column="supp_name" property="suppName" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="contact_person" property="contactPerson"
+			jdbcType="VARCHAR" />
+		<result column="account" property="account" jdbcType="VARCHAR" />
+		<result column="bank" property="bank" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		supp_id, supp_name, address, phone, contact_person, account, bank
+	</sql>
+	
+	<!-- 查询某供应商供应什么商品 -->
+	<select id="querySupplyItem" resultMap="BaseResultMap">
+		select s.supp_id, s.supp_name, i.item_name, s.address, s.phone,
+		s.contact_person, s.account, s.bank
+		from tbl_suppliers as s, tbl_items as i
+		where
+		s.supp_id = i.supp_id
+		order by s.supp_id
+	</select>
+
+
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.elite.commoditymanagement.model.SupplyerExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from tbl_suppliers
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from tbl_suppliers
+		where supp_id = #{suppId,jdbcType=VARCHAR}
+	</select>
+	<select id="selectAllSupplier" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tbl_suppliers
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from tbl_suppliers
+		where supp_id = #{suppId,jdbcType=VARCHAR}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.elite.commoditymanagement.model.SupplyerExample">
+		delete from tbl_suppliers
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.elite.commoditymanagement.model.Supplyer">
+		insert into tbl_suppliers (supp_id, supp_name, address,
+		phone, contact_person, account,
+		bank)
+		values (#{suppId,jdbcType=VARCHAR}, #{suppName,jdbcType=VARCHAR},
+		#{address,jdbcType=VARCHAR},
+		#{phone,jdbcType=VARCHAR}, #{contactPerson,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR},
+		#{bank,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.elite.commoditymanagement.model.Supplyer">
+		insert into tbl_suppliers
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="suppId != null">
+				supp_id,
+			</if>
+			<if test="suppName != null">
+				supp_name,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="phone != null">
+				phone,
+			</if>
+			<if test="contactPerson != null">
+				contact_person,
+			</if>
+			<if test="account != null">
+				account,
+			</if>
+			<if test="bank != null">
+				bank,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="suppId != null">
+				#{suppId,jdbcType=VARCHAR},
+			</if>
+			<if test="suppName != null">
+				#{suppName,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="contactPerson != null">
+				#{contactPerson,jdbcType=VARCHAR},
+			</if>
+			<if test="account != null">
+				#{account,jdbcType=VARCHAR},
+			</if>
+			<if test="bank != null">
+				#{bank,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.elite.commoditymanagement.model.SupplyerExample"
+		resultType="java.lang.Integer">
+		select count(*) from tbl_suppliers
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update tbl_suppliers
+		<set>
+			<if test="record.suppId != null">
+				supp_id = #{record.suppId,jdbcType=VARCHAR},
+			</if>
+			<if test="record.suppName != null">
+				supp_name = #{record.suppName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.address != null">
+				address = #{record.address,jdbcType=VARCHAR},
+			</if>
+			<if test="record.phone != null">
+				phone = #{record.phone,jdbcType=VARCHAR},
+			</if>
+			<if test="record.contactPerson != null">
+				contact_person = #{record.contactPerson,jdbcType=VARCHAR},
+			</if>
+			<if test="record.account != null">
+				account = #{record.account,jdbcType=VARCHAR},
+			</if>
+			<if test="record.bank != null">
+				bank = #{record.bank,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update tbl_suppliers
+		set supp_id = #{record.suppId,jdbcType=VARCHAR},
+		supp_name = #{record.suppName,jdbcType=VARCHAR},
+		address = #{record.address,jdbcType=VARCHAR},
+		phone = #{record.phone,jdbcType=VARCHAR},
+		contact_person = #{record.contactPerson,jdbcType=VARCHAR},
+		account = #{record.account,jdbcType=VARCHAR},
+		bank = #{record.bank,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.elite.commoditymanagement.model.Supplyer">
+		update tbl_suppliers
+		<set>
+			<if test="suppName != null">
+				supp_name = #{suppName,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				address = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				phone = #{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="contactPerson != null">
+				contact_person = #{contactPerson,jdbcType=VARCHAR},
+			</if>
+			<if test="account != null">
+				account = #{account,jdbcType=VARCHAR},
+			</if>
+			<if test="bank != null">
+				bank = #{bank,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where supp_id = #{suppId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.elite.commoditymanagement.model.Supplyer">
+		update tbl_suppliers
+		set supp_name = #{suppName,jdbcType=VARCHAR},
+		address = #{address,jdbcType=VARCHAR},
+		phone = #{phone,jdbcType=VARCHAR},
+		contact_person = #{contactPerson,jdbcType=VARCHAR},
+		account = #{account,jdbcType=VARCHAR},
+		bank = #{bank,jdbcType=VARCHAR}
+		where supp_id = #{suppId,jdbcType=VARCHAR}
+	</update>
+</mapper>

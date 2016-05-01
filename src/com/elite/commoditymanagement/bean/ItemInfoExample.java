@@ -604,12 +604,23 @@ public class ItemInfoExample {
         	addCriterion("stocks like binary", value, "stocks");
         	return (Criteria) this;
         }
+        
+        public Criteria andStocksEquals(String value) {
+        	addCriterion("stocks =", value, "stocks");
+        	return (Criteria) this;
+        }
+        
         public Criteria andSuppNameLike(String value) {
         	addCriterion("supp_name like binary", value, "suppName");
         	return (Criteria) this;
         }
         public Criteria andImportPriceLike(String value) {
         	addCriterion("import_price like binary", value, "importPrice");
+        	return (Criteria) this;
+        }
+        
+        public Criteria andImportPriceEquals(String value) {
+        	addCriterion("import_price =", value, "importPrice");
         	return (Criteria) this;
         }
         

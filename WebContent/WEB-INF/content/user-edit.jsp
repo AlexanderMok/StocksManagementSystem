@@ -43,9 +43,6 @@
 							<tr>
 								<th>用户角色：</th>
 								<td>
-									<div class="ui-widget">
-									  	<input id="tags" placeholder="输入“管理员工”这四个任意字有提示。" size="50" class="common-text">
-									</div>
 									<select name="user.roleId" class="btn btn3">
 										<option value="-1">--请选择角色--</option>
 										<s:iterator value="roleList" var="i">

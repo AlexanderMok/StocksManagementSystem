@@ -12,12 +12,16 @@ public class Item {
     private String suppId;
 
     private Double retailPrice;
+    
+    private Double importPrice;
 
     private String itemPic;
 
     private String note;
 
     private Long safeAmount;
+    
+    private Integer activityId;
     
     public String getItemId() {
         return itemId;
@@ -90,5 +94,21 @@ public class Item {
     public void setSafeAmount(Long safeAmount) {
         this.safeAmount = safeAmount;
     }
+
+	public Double getImportPrice() {
+		return importPrice;
+	}
+
+	public void setImportPrice(Double importPrice) {
+		this.importPrice = importPrice;
+	}
+
+	public Integer getActivityId() {
+		return activityId;
+	}
+
+	public void setActivityId(Integer activityId) {
+		this.activityId = activityId;
+	}
 
 }

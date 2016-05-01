@@ -13,7 +13,7 @@ public class ImportBill {
 
     private String suppId;
 
-    private Date importDate;
+    private String importDate;
 
     private String importPerson;
 
@@ -59,11 +59,11 @@ public class ImportBill {
         this.suppId = suppId == null ? null : suppId.trim();
     }
 
-    public Date getImportDate() {
+    public String getImportDate() {
         return importDate;
     }
 
-    public void setImportDate(Date importDate) {
+    public void setImportDate(String importDate) {
         this.importDate = importDate;
     }
 

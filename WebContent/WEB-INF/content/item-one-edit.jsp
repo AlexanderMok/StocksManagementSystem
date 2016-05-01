@@ -30,13 +30,13 @@
 			<div class="result-content">
 				<form action="item!updateItem" method="post" id="myform"
 					name="myform" enctype="multipart/form-data">
-					<input name="item.itemId" value="${item.itemId}" type="hidden">
+					<input name="item.itemId" value="${itemId}" type="hidden">
 					<table class="insert-tab" width="100%">
 						<tbody>
 							<tr>
 								<th>商品名：</th>
 								<td><input class="common-text required" id="title"
-									name="item.itemName" size="50" placeholder="${item.itemName}" value="${item.itemName}"
+									name="item.itemName" size="50" placeholder="${itemName}" value="${itemName}"
 									type="text" required></td>
 							</tr>
 							<tr>
@@ -51,7 +51,7 @@
 							</tr>
 							<tr>
 								<th>商品种类：</th>
-								<td><select name="item.catagorgyId" class="btn btn3" id="selecttype">
+								<td><select class="btn btn3" id="selecttype">
 										<option value="-1">--请选择分类--</option>
 										<s:iterator value="cataList" var="c">
 											<option value="${c.catagorgyId}"><s:property
@@ -74,13 +74,13 @@
 							<tr>
 								<th>零售价</th>
 								<td><input class="common-text price" name="item.retailPrice"
-									size="50" type="text" placeholder="请输入零售价" value="${item.retailPrice}"
+									size="50" type="text" placeholder="请输入零售价" value="${retailPrice}"
 									required></td>
 							</tr>
 							<tr>
 								<th>商品安全库存量：</th>
 								<td><input class="common-text amount" name="item.safeAmount"
-									size="50" type="text" placeholder="请输入安全库存" value="${item.safeAmount}"></td>
+									size="50" type="text" placeholder="${safeAmount}" value="${safeAmount}"></td>
 							</tr>
 							<tr>
 								<th>商品图片：</th>
@@ -103,6 +103,8 @@
 							</tr>
 						</tbody>
 					</table>
+					<input type="hidden" name="item.catagorgyId" id="cataId" value=""/>
+					<input type="hidden" name="item.activityId" value="1"/>
 				</form>
 			</div>
 		</div>

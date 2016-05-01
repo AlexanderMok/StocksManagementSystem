@@ -142,7 +142,9 @@
 								<td>
 									<a class="link-update" href="item!editItemOne?itemId=${i.itemId}&itemName=${i.itemName}&unitName=${i.unitName}&cataName=${i.cataName}&suppId=${i.suppId}&suppName=${i.suppName}&retailPrice=${i.retailPrice}&safeAmount=${i.safeAmount}">修改商品</a>
 									<a class="link-update" href="item!inItemOne?itemId=${i.itemId}&itemName=${i.itemName}&unitName=${i.unitName}&cataName=${i.cataName}&suppId=${i.suppId}&suppName=${i.suppName}&stocks=${i.stocks}&retailPrice=${i.retailPrice}&importPrice=${i.importPrice}">商品进货</a>
-									<a class="link-update" href="item!outItemOne?itemId=${i.itemId}&itemName=${i.itemName}&unitName=${i.unitName}&cataName=${i.cataName}&suppId=${i.suppId}&suppName=${i.suppName}&stocks=${i.stocks}&retailPrice=${i.retailPrice}">商品出货</a>
+									<c:if test="${i.stocks>0}">
+										<a class="link-update" href="item!outItemOne?itemId=${i.itemId}&itemName=${i.itemName}&unitName=${i.unitName}&cataName=${i.cataName}&suppId=${i.suppId}&suppName=${i.suppName}&stocks=${i.stocks}&retailPrice=${i.retailPrice}&importPrice=${i.importPrice}">商品出货</a>
+									</c:if>
 									<a class="link-del" href="item!deleteItem?itemId=${i.itemId}">删除</a>
 								</td>
 							</tr>
@@ -167,7 +169,7 @@
 									尾页
 								</c:if>&nbsp;&nbsp;&nbsp;第&nbsp;<input type="text" id="toPage"/>&nbsp;页&nbsp;&nbsp;
 								<input type="submit" id="btn_page" class="btn btn-primary" value="确定"/>&nbsp;
-								<input type="button" id="btn_download" class="btn btn-primary" value="导出报表"/>
+								<a href="excel" class="btn btn-primary" >导出报表</a>
 						</div>
 					<input type="hidden" id="lastPage" value="${lastPage}"/>
 					<input type="hidden" id="curPage" value="${curPage}"/>
@@ -177,19 +179,5 @@
 		</div>
 	</div>
 <script type="text/javascript" src="resources/back_end/js/page.js"></script>
-<script>
-$("#btn_download").click(function(){
-	$.ajax({
-		type:"get",
-		url:"excel!index",
-		success:function(){
-			alert("报表生成完成，请查看桌面item-report.xls文件。");
-		},
-		error:function(){
-			alert("抱歉，生成失败，请查看文件是否被占用。");
-		}
-	});
-});
-</script>
 </body>
 </html>

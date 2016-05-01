@@ -33,6 +33,41 @@
 					enctype="multipart/form-data">
 					<table class="insert-tab" width="100%">
 						<tbody>
+							
+							<tr>
+								<th>商品单位(<span class="error">必选</span>)：</th>
+								<td><select name="item.unitId" class="btn btn3">
+										<option value="-1">--请选择单位--</option>
+										<s:iterator value="unitList" var="u">
+											<option value="${u.unitId}"><s:property
+													value="unitName" /></option>
+										</s:iterator>
+								</select></td>
+							</tr>
+							<tr>
+								<th>商品种类(<span class="error">必选</span>)：</th>
+								
+								<td>
+								<select  class="btn btn3" id="selecttype">
+										<option value="-1">--请选择分类--</option>
+										<s:iterator value="cataList" var="c">
+											<option value="${c.catagorgyId}"><s:property
+													value="catagorgyName" /></option>
+										</s:iterator>
+								</select>
+								<select id="sectype" style="display:none;" class="btn"></select> 
+								<select	id="thirdtype" style="display:none;" class="btn"></select></td>
+							</tr>
+							<tr>
+								<th>供应商(<span class="error">必选</span>)：</th>
+								<td><select name="item.suppId" class="btn btn3">
+										<option value="-1">--请选择供应商--</option>
+										<s:iterator value="suppList" var="s">
+											<option value="${s.suppId}"><s:property
+													value="suppName" /></option>
+										</s:iterator>
+								</select></td>
+							</tr>
 							<tr>
 								<th>商品编号：</th>
 								<td><input class="common-text required" id="title"
@@ -44,38 +79,6 @@
 								<td><input class="common-text required" id="title"
 									name="item.itemName" size="50" placeholder="请输入商品名" type="text"
 									required></td>
-							</tr>
-							<tr>
-								<th>商品单位：</th>
-								<td><select name="item.unitId" class="btn btn3">
-										<option value="-1">--请选择单位--</option>
-										<s:iterator value="unitList" var="u">
-											<option value="${u.unitId}"><s:property
-													value="unitName" /></option>
-										</s:iterator>
-								</select></td>
-							</tr>
-							<tr>
-								<th>商品种类：</th>
-								<td><select name="item.catagorgyId" class="btn btn3" id="selecttype">
-										<option value="-1">--请选择分类--</option>
-										<s:iterator value="cataList" var="c">
-											<option value="${c.catagorgyId}"><s:property
-													value="catagorgyName" /></option>
-										</s:iterator>
-								</select>
-								<select id="sectype" style="display:none;" class="btn"></select> 
-								<select	id="thirdtype" style="display:none;" class="btn"></select></td>
-							</tr>
-							<tr>
-								<th>供应商：</th>
-								<td><select name="item.suppId" class="btn btn3">
-										<option value="-1">--请选择供应商--</option>
-										<s:iterator value="suppList" var="s">
-											<option value="${s.suppId}"><s:property
-													value="suppName" /></option>
-										</s:iterator>
-								</select></td>
 							</tr>
 							<tr>
 								<th>零售价</th>
@@ -110,15 +113,17 @@
 							</tr>
 						</tbody>
 					</table>
+					<input type="hidden" name="item.catagorgyId" id="cataId" value=""/>
+					<input type="hidden" name="item.activityId" value="1"/>
 				</form>
 			</div>
 		</div>
 	</div>
 	<!--/main-->
+</body>
 <script type="text/javascript" src="resources/back_end/js/item_cata.js"></script>
 <script type="text/javascript" src="resources/back_end/js/inputPosition.js"></script>
 <script type="text/javascript" src="resources/public/js/ajaxupload.js"></script>
 <script type="text/javascript" src="resources/public/js/upload_pic.js"></script>
 <script type="text/javascript" src="resources/back_end/js/page.js"></script>
-</body>
 </html>

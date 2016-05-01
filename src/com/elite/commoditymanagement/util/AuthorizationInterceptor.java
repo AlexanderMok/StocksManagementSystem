@@ -17,7 +17,6 @@ public class AuthorizationInterceptor extends MethodFilterInterceptor {
 
 	@Override
 	protected String doIntercept(ActionInvocation invocation) throws Exception {
-		System.out.println("---进入拦截器1---");
 		ActionContext context = ActionContext.getContext();
 		HttpServletRequest request = (HttpServletRequest) context
 				.get(ServletActionContext.HTTP_REQUEST);
@@ -25,7 +24,6 @@ public class AuthorizationInterceptor extends MethodFilterInterceptor {
 		if(session.getAttribute("user")==null) {
 			return "login";
 		}
-		System.out.println("进入拦截器---");
 		return invocation.invoke();
 	}
 

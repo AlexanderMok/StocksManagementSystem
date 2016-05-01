@@ -1,10 +1,20 @@
 $(document).ready(function() {
+	
 			page();
 			order();
 			isNum(".price");
 			isAmount(".amount");
 			isDate(".date");
+			encode();
+			
+			
+			
 });
+
+
+
+
+
 
 /*排序*/
 function order() {
@@ -80,9 +90,11 @@ function isAmount (className){
 		if(/^\d+$/.test(this.value)==false){
 			this.value="请输入数字";
 			this.focus();
-		}
+		} 
 	});	
 }
+
+
 
 
 /*日期验证*/
@@ -102,5 +114,13 @@ function isPass(className) {
 			this.focus();
 		}
 	});	
+}
+
+function encode() {
+	for (var i = 0; i < document.links.length; i++) {
+
+		document.links[i].href = encodeURI(document.links[i].href);
+
+	} 
 }
 

@@ -30,15 +30,14 @@
 		</div>
 		<div class="result-wrap">
 			<div class="result-content">
-				<form action="supplyer!updateSupp" method="post" id="myform"
-					name="myform" enctype="multipart/form-data">
+				<form action="supplyer!updateSupp" method="post">
 					<input name="supplyer.suppId" size="50" value="${supplyer.suppId}"
 						type="hidden">
 					<table class="insert-tab" width="100%">
 						<tbody>
 							<tr>
 								<th>供应商编号：</th>
-								<td><input class="common-text required" id="title"
+								<td><input class="common-text required" 
 									name="supplyer.suppId" size="50" value="${supplyer.suppId}"
 									type="text" disabled></td>
 							</tr>
@@ -89,6 +88,11 @@
 		</div>
 	</div>
 	<!--/main-->
-<script type="text/javascript" src="resources/back_end/js/inputPosition.js"></script>	
+<script type="text/javascript" src="resources/back_end/js/inputPosition.js"></script>
+<script>
+$(function(){
+	$("#title").focus();
+});
+</script>	
 </body>
 </html>

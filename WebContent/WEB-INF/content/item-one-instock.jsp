@@ -34,11 +34,7 @@
 					enctype="multipart/form-data">
 					<table class="insert-tab" width="100%">
 						<tbody>
-							<tr>
-								<th>进货编号</th>
-								<td><input class="common-text" name="importBill.importId"
-									size="50" type="text" placeholder="请输入进货编号" required></td>
-							</tr>
+							
 							<tr>
 								<th>商品编号：</th>
 								<td>
@@ -72,10 +68,15 @@
 								</td>
 							</tr>
 							<tr>
+								<th>进货编号</th>
+								<td><input class="common-text" name="importBill.importId" id="title"
+									size="50" type="text" placeholder="请输入进货编号" required></td>
+							</tr>
+							<tr>
 								<th>数量</th>
 								<td><input class="common-text amount"
 									name="importBill.importAmount" size="50" type="text"
-									placeholder="请输入数量" value="${stocks}" required></td>
+									placeholder="当前库存量${stocks}" value="${stocks}" required></td>
 							</tr>
 							<tr>
 								<th>进货价格（成本价）</th>
@@ -94,7 +95,8 @@
 							<tr>
 								<th>执行人：</th>
 								<td>
-									<input type="text" name="importBill.importPerson" value="${user.userName}"/>
+									<input type="text" value="${user.userName}" disabled/>
+									<input type="hidden" name="importBill.importPerson" value="${user.userName}"/>
 								</td>
 							</tr>
 							<tr>
@@ -115,7 +117,12 @@
 		</div>
 	</div>
 	<!--/main-->
-<script type="text/javascript" src="resources/back_end/js/inputPosition.js"></script>
-<script type="text/javascript" src="resources/back_end/js/page.js"></script>	
 </body>
+<script type="text/javascript" src="resources/back_end/js/inputPosition.js"></script>
+<script type="text/javascript" src="resources/back_end/js/page.js"></script>
+<script>
+$(function(){
+	$("#title").focus();
+});
+</script>	
 </html>

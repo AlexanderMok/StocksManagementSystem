@@ -1,7 +1,13 @@
 package com.elite.commoditymanagement.action;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+
+import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.Result;
@@ -10,6 +16,7 @@ import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.bmc.thirdparty.org.apache.commons.lang.CharSet;
 import com.elite.commoditymanagement.bean.ItemInfo;
 import com.elite.commoditymanagement.model.Catagorgy;
 import com.elite.commoditymanagement.model.ExportBill;
@@ -69,6 +76,7 @@ public class ItemAction extends BaseAction {
 	private Double retailPrice;
 	private Double importPrice;
 	private Integer stocks;
+	private Integer safeAmount;
 	
 	//返回后台数据至前台
 	private List<ItemInfo> infoList;
@@ -119,6 +127,7 @@ public class ItemAction extends BaseAction {
 			log.error("item!list -error: " + e.getMessage());
 			System.out.println("ItemAction->list->return Error:"
 					+ e.getStackTrace());
+			e.printStackTrace();
 			return new DefaultHttpHeaders("item-list").disableCaching();
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block
@@ -128,6 +137,38 @@ public class ItemAction extends BaseAction {
 	}
 	
 	
+	/**
+	 * 查库存
+	 * @return
+	 * @throws IOException
+	 */
+	public HttpHeaders findStocks() throws IOException {
+		ItemInfo infos = itemService.selectStocksById(itemId,
+				String.valueOf(importPrice)).get(0);
+		StringBuffer bf = new StringBuffer();
+		bf.append("{stock:[{");
+		bf.append("\"stocks\"").append(":").append("\"").append(infos.getStocks()).append("\"").append(",");
+		bf.append("\"suppId\"").append(":").append("\"").append(infos.getSuppId()).append("\"").append(",");
+		bf.append("\"suppName\"").append(":").append("\"").append(infos.getSuppName()).append("\"");
+		bf.append("}]}");
+		this.getResponse().getWriter().write(bf.toString());
+		return null;
+	}
+	/**
+	 * 查供应商
+	 * @return
+	 * @throws IOException
+	 */
+	public HttpHeaders findSupp() throws IOException {
+		ItemInfo infos = itemService.selectStocksById(itemId).get(0);
+		StringBuffer bf = new StringBuffer();
+		bf.append("{supp:[{");
+		bf.append("\"suppId\"").append(":").append("\"").append(infos.getSuppId()).append("\"").append(",");
+		bf.append("\"suppName\"").append(":").append("\"").append(infos.getSuppName()).append("\"");
+		bf.append("}]}");
+		this.getResponse().getWriter().write(bf.toString());
+		return null;
+	}
 
 
 	/**
@@ -173,13 +214,12 @@ public class ItemAction extends BaseAction {
 	
 	
 	public HttpHeaders editItemOne(){
+		
 		unitList = unitService.selectAllUnit();
 
 		cataList = catagorgyService.selectAllCatagorgy();
 
 		suppList = suppService.getAllSupp();
-		
-		item = itemService.selectByPrimaryKey(itemId);
 		return new DefaultHttpHeaders("item-one-edit").disableCaching();
 	}
 
@@ -249,7 +289,7 @@ public class ItemAction extends BaseAction {
 	 * @return 录入页面
 	 */
 	public HttpHeaders outItemOne() {
-
+		
 		return new DefaultHttpHeaders("item-one-outstock").disableCaching();
 	}
 
@@ -303,7 +343,7 @@ public class ItemAction extends BaseAction {
 	 */
 	public HttpHeaders outItem() {
 		try {
-			log.debug("doing execute item!inItem....");
+			log.debug("doing execute item!outItem....");
 			// 传入进货的商品,出货商品从进货商品里边取
 			List<ImportBill> inBillList = importBillService.selectByExample();
 			Item item;
@@ -318,15 +358,14 @@ public class ItemAction extends BaseAction {
 				String itemName = itemService.selectByPrimaryKey(itemId)
 						.getItemName();
 				item.setItemName(itemName);
-				// 将进货表的itemId与itemName封装在itemInfo中
+				
+				Double importPrice = importBill.getImportPrice();
+				item.setImportPrice(importPrice);
+				
 				itemList.add(item);
 			}
 
-			unitList = unitService.selectAllUnit();
-
 			suppList = suppService.getAllSupp();
-
-			userList = userService.getAllUsers();
 
 			item = itemService.selectByPrimaryKey(itemId);
 		} catch (Exception e) {
@@ -458,10 +497,12 @@ public class ItemAction extends BaseAction {
 
 	/**
 	 * 
+	 * @throws UnsupportedEncodingException 
 	 * @TODO 修改、进货、出货单个商品信息，通过URL传参数
 	 */
-	public String getUnitName() {
-		return unitName;
+	public String getUnitName() throws UnsupportedEncodingException {
+		return URLDecoder.decode(unitName, "UTF-8");
+		
 	}
 
 
@@ -470,8 +511,8 @@ public class ItemAction extends BaseAction {
 	}
 
 
-	public String getCataName() {
-		return cataName;
+	public String getCataName() throws UnsupportedEncodingException {
+		return URLDecoder.decode(cataName, "UTF-8");
 	}
 
 
@@ -490,8 +531,8 @@ public class ItemAction extends BaseAction {
 	}
 
 
-	public String getSuppName() {
-		return suppName;
+	public String getSuppName() throws UnsupportedEncodingException {
+		return URLDecoder.decode(suppName, "UTF-8");
 	}
 
 
@@ -500,8 +541,8 @@ public class ItemAction extends BaseAction {
 	}
 
 
-	public String getItemName() {
-		return itemName;
+	public String getItemName() throws UnsupportedEncodingException {
+		return URLDecoder.decode(itemName, "UTF-8");
 	}
 
 
@@ -534,7 +575,13 @@ public class ItemAction extends BaseAction {
 		this.importPrice = importPrice;
 	}
 
+	public Integer getSafeAmount() {
+		return safeAmount;
+	}
 
+	public void setSafeAmount(Integer safeAmount) {
+		this.safeAmount = safeAmount;
+	}
 
 
 	//模糊查询条件，搜索功能用

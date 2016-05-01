@@ -25,7 +25,7 @@
 			<div class="crumb-list">
 				<i class="icon-font"></i><a href="index!index">后台首页</a><span
 					class="crumb-step">&gt;</span><a class="crumb-name"
-					href="user!userList">商品管理</a><span class="crumb-step">&gt;</span><span>商品出货录入</span>
+					href="item!list">商品管理</a><span class="crumb-step">&gt;</span><span>商品出货录入</span>
 			</div>
 		</div>
 		<div class="result-wrap">
@@ -40,40 +40,24 @@
 							</tr>
 							<tr>
 								<th>商品名：</th>
-								<td><select name="exportBill.itemId" class="btn btn3">
+								<td><select name="exportBill.itemId" class="btn btn3" id="selecItem">
 										<option value="-1">--请选择商品--</option>
 										<s:iterator value="itemList" var="i">
 											<option value="${i.itemId}"><s:property
-													value="itemName" /></option>
+													value="itemName" /> : 成本价 <s:property value="importPrice"/></option>
 										</s:iterator>
 								</select></td>
 							</tr>
-							<!-- 非必要字段，可删除 -->
-							<tr>
-								<th>商品单位：</th>
-								<td><select name="unit" class="btn btn3">
-										<option value="-1">--请选择单位--</option>
-										<s:iterator value="unitList" var="u">
-											<option value="${u.unitId}"><s:property
-													value="unitName" /></option>
-										</s:iterator>
-								</select></td>
-							</tr>
-							<!-- 可删除 结束-->
 							<tr>
 								<th>供应商：</th>
-								<td><select name="exportBill.suppId" class="btn btn3">
-										<option value="-1">--请选择供应商--</option>
-										<s:iterator value="suppList" var="s">
-											<option value="${s.suppId}"><s:property
-													value="suppName" /></option>
-										</s:iterator>
-								</select></td>
+								<td>
+									<input type="hidden" id="suppId" name="exportBill.suppId" value=""/>
+									<input type="text" size="50" class="common-text" id="suppName" name="suppName" value=""/>
+								</td>
 							</tr>
-							
 							<tr>
 								<th>数量</th>
-								<td><input class="common-text amount"
+								<td><input class="common-text amount outNum"
 									name="exportBill.exportAmount" size="50" type="text"
 									placeholder="请输入数量" required></td>
 							</tr>
@@ -114,7 +98,30 @@
 		</div>
 	</div>
 	<!--/main-->
-<script type="text/javascript" src="resources/back_end/js/inputPosition.js"></script>
-<script type="text/javascript" src="resources/back_end/js/page.js"></script>	
 </body>
+<script>
+$(document).ready(function(){
+	var oSelect = $("#selecItem");
+	var num = $(".outNum");
+	oSelect.change(function(){
+		var str = $("#selecItem option:selected").text();
+		var price = str.substring(str.lastIndexOf(" ") + 1);
+		$.ajax({
+			type:"get",
+			url:"item!findStocks?itemId=" + oSelect.val() + "&importPrice=" + price,
+			success: function(res){
+				var json = eval(res);
+				num.attr("placeholder","当前商品库存量为" + json[0].stocks);
+				$("#suppId").val(json[0].suppId);
+				$("#suppName").val(json[0].suppName);
+			},
+			error: function(obj,res) {
+				alert("获取库存有错误" + res);
+			}
+		});
+	});
+});
+</script>	
+<script type="text/javascript" src="resources/back_end/js/inputPosition.js"></script>
+<script type="text/javascript" src="resources/back_end/js/page.js"></script>
 </html>

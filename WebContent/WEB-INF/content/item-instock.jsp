@@ -40,7 +40,7 @@
 							</tr>
 							<tr>
 								<th>商品名：</th>
-								<td><select name="importBill.itemId" class="btn btn3">
+								<td><select name="importBill.itemId" class="btn btn3" id="selecItem">
 										<option value="-1">--请选择商品--</option>
 										<s:iterator value="itemList" var="item">
 											<option value="${item.itemId}"><s:property
@@ -48,27 +48,12 @@
 										</s:iterator>
 								</select></td>
 							</tr>
-							<!-- 非必要，可删除 -->
-							<tr>
-								<th>商品单位：</th>
-								<td><select name="unit.unitId" class="btn btn3">
-										<option value="-1">--请选择单位--</option>
-										<s:iterator value="unitList" var="u">
-											<option value="${u.unitId}"><s:property
-													value="unitName" /></option>
-										</s:iterator>
-								</select></td>
-							</tr>
-							<!-- 可删除 结束-->
 							<tr>
 								<th>供应商：</th>
-								<td><select name="importBill.suppId" class="btn btn3">
-										<option value="-1">--请选择供应商--</option>
-										<s:iterator value="suppList" var="s">
-											<option value="${s.suppId}"><s:property
-													value="suppName" /></option>
-										</s:iterator>
-								</select></td>
+								<td>
+									<input type="hidden" id="suppId" name="importBill.suppId" value=""/>
+									<input type="text" size="50" class="common-text" id="suppName" name="suppName" value=""/>
+								</td>
 							</tr>
 							
 							<tr>
@@ -100,7 +85,7 @@
 							<tr>
 								<th>备注</th>
 								<td><input class="common-text" name="importBill.note"
-									size="50" type="text" placeholder="请输入备注" required></td>
+									size="50" type="text" value="商品进货" required></td>
 							</tr>
 							<tr>
 								<th></th>
@@ -115,7 +100,26 @@
 		</div>
 	</div>
 	<!--/main-->
+</body>
+<script>
+$(document).ready(function(){
+	var oSelect = $("#selecItem");
+	oSelect.change(function(){
+		$.ajax({
+			type:"get",
+			url:"item!findSupp?itemId=" + oSelect.val(),
+			success: function(res){
+				var json = eval(res);
+				$("#suppId").val(json[0].suppId);
+				$("#suppName").val(json[0].suppName);
+			},
+			error: function(obj,res) {
+				alert("获取库存有错误" + res);
+			}
+		});
+	});
+});
+</script>	
 <script type="text/javascript" src="resources/back_end/js/inputPosition.js"></script>
 <script type="text/javascript" src="resources/back_end/js/page.js"></script>	
-</body>
 </html>

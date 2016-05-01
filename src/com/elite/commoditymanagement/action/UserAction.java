@@ -57,18 +57,20 @@ public class UserAction extends BaseAction {
 	 * @return 后台首页
 	 */
 	public HttpHeaders valid() {
-		this.getSession().invalidate();
 		try {
-			log.debug("doing execute user!valid....");
+			log.info("doing execute user!valid....");
 			
 			if(password==null || "".equals(password) || !(password.matches("^[0-9a-zA-Z_]{8}$"))){
 				this.setSessionAttr("Msg", msg);
+				System.out.print(msg);
 				return new DefaultHttpHeaders("user-login").disableCaching();
 			}
+			System.out.print("userName is "+userName+", password is "+password+".................");
 			
 			Boolean flag = userService.selectByNamePass(userName, password);
 
 			if (flag==true) {
+				log.info("===========use found and it is valid");
 				user = userService.selectByName(userName).get(0);
 				String date = DateTool.dateToString(new Date());
 				this.setSessionAttr("user", user);
@@ -76,6 +78,7 @@ public class UserAction extends BaseAction {
 				this.getSession().setMaxInactiveInterval(60 * 15);// 15分钟
 				return new DefaultHttpHeaders("user-admin").disableCaching();
 			} else {
+				log.info("use not found and it is not valid==========");
 				this.setSessionAttr("Msg", "用户名或密码有误");
 				return new DefaultHttpHeaders("user-login").disableCaching();
 			}
@@ -83,6 +86,7 @@ public class UserAction extends BaseAction {
 			log.error("user!valid -error: " + e.getMessage());
 			System.out.println("UserAction->valid->return Error:"
 					+ e.getStackTrace());
+			e.printStackTrace();
 			return new DefaultHttpHeaders("error").disableCaching();
 		}
 	}

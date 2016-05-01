@@ -4,12 +4,18 @@
 
 <proxool>
 	<!--数据源的别名 -->
-	<alias>commodity</alias>
+<!-- 	<alias>wx</alias> -->
+<!-- 	<driver-url>jdbc:mysql://115.28.32.55:3306/wxdb?useUnicode=true&amp;characterEncoding=UTF8"</driver-url> -->
+<!-- 	<driver-class>com.mysql.jdbc.Driver</driver-class> -->
+<!-- 	<driver-properties> -->
+<!-- 		<property name="user" value="root" /> -->
+<!-- 		<property name="password" value="!QAZ@WSX" /> -->
+<!-- 	</driver-properties> -->
 	<driver-url>jdbc:mysql://localhost/commodity?useUnicode=true&amp;characterEncoding=UTF8</driver-url>
 	<driver-class>com.mysql.jdbc.Driver</driver-class>
 	<driver-properties>
-		<property name="user" value="root" />
-		<property name="password" value="" />
+		<property name="user" value="alex" />
+		<property name="password" value="sss" />
 	</driver-properties>
 	<maximum-connection-count>100</maximum-connection-count>
 	<minimum-connection-count>10</minimum-connection-count>

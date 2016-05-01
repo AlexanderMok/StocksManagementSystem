@@ -13,7 +13,7 @@ public class ExportBill {
 
     private String suppId;
 
-    private Date exportDate;
+    private String exportDate;
 
     private String exportPerson;
 
@@ -59,11 +59,11 @@ public class ExportBill {
         this.suppId = suppId == null ? null : suppId.trim();
     }
 
-    public Date getExportDate() {
+    public String getExportDate() {
         return exportDate;
     }
 
-    public void setExportDate(Date exportDate) {
+    public void setExportDate(String exportDate) {
         this.exportDate = exportDate;
     }
 

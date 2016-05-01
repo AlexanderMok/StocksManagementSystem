@@ -38,6 +38,23 @@ public class ItemServiceImpl implements ItemService {
 		return itemMapper.deleteByPrimaryKey(itemId);
 	}
 	
+	public List<ItemInfo> selectStocksById(String itemId, String importPrice) {
+		ItemInfoExample example = new ItemInfoExample();
+		com.elite.commoditymanagement.bean.ItemInfoExample.Criteria criteria = example
+				.createCriteria();
+		criteria.andItemIdEqualTo(itemId)
+		.andImportPriceEquals(importPrice);
+		return itemInfoMapper.selectByExample(example);
+	}
+	
+	public List<ItemInfo> selectStocksById(String itemId) {
+		ItemInfoExample example = new ItemInfoExample();
+		com.elite.commoditymanagement.bean.ItemInfoExample.Criteria criteria = example
+				.createCriteria();
+		criteria.andItemIdEqualTo(itemId);
+		return itemInfoMapper.selectByExample(example);
+	}
+	
 	public List<ItemInfo> selectByCondition(String condition) {
 		ItemInfoExample example = new ItemInfoExample();
 		example.or().andItemIdLike(condition);

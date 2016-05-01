@@ -1,13 +1,11 @@
 package com.elite.commoditymanagement.action;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -33,17 +31,20 @@ public class ExcelAction extends BaseAction {
 			"联系电话", "联系人", "备注" };
 
 	public HttpHeaders index() {
+		HSSFWorkbook wb = null;
+		OutputStream out = null;
 		try {
 		log.debug("doing execute excel!index....");
-//		HttpServletResponse response = this.getResponse();
+		HttpServletResponse response = this.getResponse();
 //		response.setContentType("application/octet-stream");
-//		response.setHeader("Content-Disposition",
-//				"attachment;filename=item-report.xls");
+		response.setContentType("application/x-msdownload");
+		response.setHeader("Content-Disposition",
+				"attachment;filename=item-report.xls");
 
 		infoList = itemService.selectByView();
 
 		// 创建excel
-		HSSFWorkbook wb = new HSSFWorkbook();
+		wb = new HSSFWorkbook();
 		HSSFSheet sheet = wb.createSheet("sheet0");
 		// 首行
 		ExportTool.outputHeaders(title, sheet);
@@ -72,20 +73,22 @@ public class ExcelAction extends BaseAction {
 			}
 		}
 		
-		File file = new File("C:/Users/Administrator/Desktop/item-report.xls");
-		if(!file.exists()){
-			file.createNewFile();
-		}
-		FileOutputStream out = FileUtils.openOutputStream(file);
-		//获取输出流，写入excel 并关闭
-//		ServletOutputStream out = response.getOutputStream();
+		//获取输出流，
+		out = response.getOutputStream();
+		//写入excel 
 		wb.write(out);
-		out.close();
-		wb.close();
 		} catch (Exception e) {
+			try {
+				out.close();
+				//关闭
+				wb.close();
+			} catch (IOException e1) {
+				
+			}
 			log.error("excel!index -error: " + e.getMessage());
 			System.out.println("ExcelAction->index->return Error:"
 					+ e.getStackTrace());
+			e.printStackTrace();
 		}
 		return null;
 	}

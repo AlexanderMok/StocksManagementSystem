@@ -30,7 +30,7 @@
 			<div class="result-content">
 				<form action="item!updateItem" method="post" id="myform"
 					name="myform" enctype="multipart/form-data">
-					<input name="item.itemId" value="${item.itemId}" type="hidden">
+					<input name="item.itemId" value="${itemId}" type="hidden">
 					<table class="insert-tab" width="100%">
 						<tbody>
 							<tr>
@@ -51,7 +51,7 @@
 							</tr>
 							<tr>
 								<th>商品种类：</th>
-								<td><select name="item.catagorgyId" class="btn btn3" id="selecttype">
+								<td><select class="btn btn3" id="selecttype">
 										<option value="-1">--请选择分类--</option>
 										<s:iterator value="cataList" var="c">
 											<option value="${c.catagorgyId}"><s:property
@@ -105,15 +105,17 @@
 							</tr>
 						</tbody>
 					</table>
+					<input type="hidden" name="item.catagorgyId" id="cataId"/>
+					<input type="hidden" name="item.activityId" value="1"/>
 				</form>
 			</div>
 		</div>
 	</div>
 	<!--/main-->
+</body>
 <script type="text/javascript" src="resources/back_end/js/item_cata.js"></script>
 <script type="text/javascript" src="resources/back_end/js/inputPosition.js"></script>
 <script type="text/javascript" src="resources/public/js/ajaxupload.js"></script>
 <script type="text/javascript" src="resources/public/js/upload_pic.js"></script>
 <script type="text/javascript" src="resources/back_end/js/page.js"></script>
-</body>
 </html>

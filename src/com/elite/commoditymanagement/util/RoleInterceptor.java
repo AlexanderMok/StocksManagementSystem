@@ -17,7 +17,6 @@ public class RoleInterceptor extends MethodFilterInterceptor {
 
 	@Override
 	protected String doIntercept(ActionInvocation invocation) throws Exception {
-		System.out.println("---进入拦截器2---");
 		ActionContext context = ActionContext.getContext();
 		HttpServletRequest request = (HttpServletRequest) context
 				.get(ServletActionContext.HTTP_REQUEST);

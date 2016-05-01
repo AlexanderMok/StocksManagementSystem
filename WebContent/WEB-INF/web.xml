@@ -26,6 +26,17 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
+		
+	<!-- 配置proxool数据源路径
+	<context-param>
+		<param-name>proxoolConfigLocation</param-name>
+		<param-value>/WEB-INF/config/proxool.xml</param-value>
+	</context-param> -->
+	<!-- 配置proxool监听器 
+	<listener>
+		<listener-class>org.logicalcobwebs.proxool.configuration.ListenerConfigurator</listener-class>
+	</listener>-->
+	
 	<!-- struts启动配置 -->
 	<filter>
 		<filter-name>struts2</filter-name>
@@ -35,7 +46,9 @@
 		<filter-name>struts2</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
+	
+	
+	
 	<!-- Spring -->
 	<!-- 配置Spring配置文件路径 -->
 	<context-param>
@@ -65,15 +78,16 @@
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
+	
+	<servlet>
+		<servlet-name>DruidStatView</servlet-name>
+		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DruidStatView</servlet-name>
+		<url-pattern>/druid/*</url-pattern>
+	</servlet-mapping>
 
-	<!-- 配置proxool数据源路径 -->
-	<context-param>
-		<param-name>proxoolConfigLocation</param-name>
-		<param-value>/WEB-INF/config/proxool.xml</param-value>
-	</context-param>
-	<!-- 配置proxool监听器 -->
-	<listener>
-		<listener-class>org.logicalcobwebs.proxool.configuration.ListenerConfigurator</listener-class>
-	</listener>
+	
 	
 </web-app>

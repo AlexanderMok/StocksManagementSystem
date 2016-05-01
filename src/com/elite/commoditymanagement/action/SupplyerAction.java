@@ -1,5 +1,7 @@
 package com.elite.commoditymanagement.action;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,8 +88,6 @@ public class SupplyerAction extends BaseAction {
 
 				list.add(suppInfo);
 			}
-			this.finalize();
-			
 			
 		} catch (Exception e) {
 			log.error("supplyer!list -error: " + e.getMessage());
@@ -147,7 +147,6 @@ public class SupplyerAction extends BaseAction {
 	public HttpHeaders updateSupp() {
 		try {
 			log.debug("doing execute supplyer!updateSupplyer....");
-			
 			supplyerService.updateByPrimaryKeySelective(supplyer);
 			
 		} catch (Exception e) {
@@ -183,8 +182,8 @@ public class SupplyerAction extends BaseAction {
 		this.supplyer = supplyer;
 	}
 
-	public String getSuppId() {
-		return suppId;
+	public String getSuppId() throws UnsupportedEncodingException {
+		return URLDecoder.decode(suppId, "UTF-8");
 	}
 
 	public void setSuppId(String suppId) {
