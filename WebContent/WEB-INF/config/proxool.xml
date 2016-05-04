@@ -4,13 +4,7 @@
 
 <proxool>
 	<!--数据源的别名 -->
-<!-- 	<alias>wx</alias> -->
-<!-- 	<driver-url>jdbc:mysql://115.28.32.55:3306/wxdb?useUnicode=true&amp;characterEncoding=UTF8"</driver-url> -->
-<!-- 	<driver-class>com.mysql.jdbc.Driver</driver-class> -->
-<!-- 	<driver-properties> -->
-<!-- 		<property name="user" value="root" /> -->
-<!-- 		<property name="password" value="!QAZ@WSX" /> -->
-<!-- 	</driver-properties> -->
+	<alias>wx</alias>
 	<driver-url>jdbc:mysql://localhost/commodity?useUnicode=true&amp;characterEncoding=UTF8</driver-url>
 	<driver-class>com.mysql.jdbc.Driver</driver-class>
 	<driver-properties>

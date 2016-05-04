@@ -28,4 +28,6 @@ public interface ItemService {
 	List<Item> selectAllItem();
 	
 	int updateByPrimaryKey(Item record);
+
+	List<ItemInfo> selectByStocks();
 }

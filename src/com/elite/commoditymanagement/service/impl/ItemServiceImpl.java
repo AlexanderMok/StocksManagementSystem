@@ -105,4 +105,9 @@ public class ItemServiceImpl implements ItemService {
 		return list.size() > 0 ? list : null;
 	}
 
+	public List<ItemInfo> selectByStocks() {
+		
+		return itemInfoMapper.selectByStocks();
+	}
+
 }

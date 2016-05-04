@@ -37,7 +37,7 @@
 								<th>商品名：</th>
 								<td><select name="exportBill.itemId" class="btn btn3" id="selecItem">
 										<option value="-1">--请选择商品--</option>
-										<s:iterator value="itemList" var="i">
+										<s:iterator value="infoList" var="i">
 											<option value="${i.itemId}"><s:property
 													value="itemName" /> : 成本价 <s:property value="importPrice"/></option>
 										</s:iterator>

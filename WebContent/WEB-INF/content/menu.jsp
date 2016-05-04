@@ -62,7 +62,7 @@
 						<li><a href="item!inItem"><i class="icon-font">&#xe008;</i>商品进货录入</a></li>
 						<li><a href="item!outItem"><i class="icon-font">&#xe008;</i>商品出货录入</a></li>
 						<li><a href="stocks!list"><i class="icon-font">&#xe008;</i>流水记录(视图)</a></li>
-						<li><a href="stocks!billList"><i class="icon-font">&#xe008;</i>流水记录(非视图)</a></li>
+<!-- 						<li><a href="stocks!billList"><i class="icon-font">&#xe008;</i>流水记录(非视图)</a></li> -->
 					</ul>
 				</li>
 			</ul>

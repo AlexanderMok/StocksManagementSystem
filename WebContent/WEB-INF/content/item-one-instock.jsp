@@ -30,8 +30,7 @@
 		</div>
 		<div class="result-wrap">
 			<div class="result-content">
-				<form action="item!in" method="post"
-					enctype="multipart/form-data">
+				<form action="item!in" method="post">
 					<table class="insert-tab" width="100%">
 						<tbody>
 							

@@ -151,16 +151,16 @@
 							</div>
 							<div class="page_ctrl">
 								<c:if test="${curPage != 1}">
-									<a href="stocks!list?curPage=1&pageSize=${pageSize}&order=${order}&sequence=${sequence}">首页</a>&nbsp;
-									<a href="stocks!list?curPage=${curPage - 1}&pageSize=${pageSize}&order=${order}&sequence=${sequence}">上一页</a>&nbsp;
+									<a href="stocks!billList?curPage=1&pageSize=${pageSize}&order=${order}&sequence=${sequence}">首页</a>&nbsp;
+									<a href="stocks!billList?curPage=${curPage - 1}&pageSize=${pageSize}&order=${order}&sequence=${sequence}">上一页</a>&nbsp;
 								</c:if> 
 								<c:if test="${curPage == 1}">
 									首页&nbsp;
 								</c:if> 
 								第${curPage}页&nbsp;&nbsp;共${lastPage}页								
 								<c:if test="${curPage != lastPage}">
-									<a href="stocks!list?curPage=${curPage+1}&pageSize=${pageSize}&order=${order}&sequence=${sequence}">下一页</a>&nbsp;
-									<a href="stocks!list?curPage=${lastPage}&pageSize=${pageSize}&order=${order}&sequence=${sequence}">尾页</a>&nbsp;
+									<a href="stocks!billList?curPage=${curPage+1}&pageSize=${pageSize}&order=${order}&sequence=${sequence}">下一页</a>&nbsp;
+									<a href="stocks!billList?curPage=${lastPage}&pageSize=${pageSize}&order=${order}&sequence=${sequence}">尾页</a>&nbsp;
 								</c:if>
 								<c:if test="${curPage == lastPage}">
 									尾页

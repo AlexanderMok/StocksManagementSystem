@@ -123,5 +123,15 @@
 		where 
 		item_id = #{itemId,jdbcType=VARCHAR}
 	</select>
+	
+	
+	<select id="selectByStocks" resultMap="BaseResultMap">
+		select
+		item_id,item_name,import_price
+		from
+		iteminfoview
+		where
+		stocks > 0 
+	</select>
 
 </mapper>

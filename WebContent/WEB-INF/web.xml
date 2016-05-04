@@ -32,10 +32,10 @@
 		<param-name>proxoolConfigLocation</param-name>
 		<param-value>/WEB-INF/config/proxool.xml</param-value>
 	</context-param> -->
-	<!-- 配置proxool监听器 
+	<!-- 配置proxool监听器
 	<listener>
 		<listener-class>org.logicalcobwebs.proxool.configuration.ListenerConfigurator</listener-class>
-	</listener>-->
+	</listener> -->
 	
 	<!-- struts启动配置 -->
 	<filter>

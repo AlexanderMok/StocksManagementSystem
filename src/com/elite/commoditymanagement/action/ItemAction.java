@@ -355,31 +355,13 @@ public class ItemAction extends BaseAction {
 	public HttpHeaders outItem() {
 		try {
 			log.debug("doing execute item!outItem....");
-			// 传入进货的商品,出货商品从进货商品里边取
-			List<ImportBill> inBillList = importBillService.selectByExample();
-			System.out.println("====" + inBillList.size());
-			Item item;
-			itemList = new ArrayList<Item>();
-			for (ImportBill importBill : inBillList) {
-
-				item = new Item();
-
-				String itemId = importBill.getItemId();
-				item.setItemId(itemId);
-
-				String itemName = itemService.selectByPrimaryKey(itemId)
-						.getItemName();
-				item.setItemName(itemName);
-				
-				Double importPrice = importBill.getImportPrice();
-				item.setImportPrice(importPrice);
-				
-				itemList.add(item);
-			}
+			// 传入进货的商品,库存大于0才传,底层为查商品视图，条件为库存>0
+			infoList = itemService.selectByStocks();
+			
+			System.out.println("====" + infoList.size());
 
 			suppList = suppService.getAllSupp();
 
-			item = itemService.selectByPrimaryKey(itemId);
 		} catch (Exception e) {
 			log.error("item!outItem -error: " + e.getMessage());
 			System.out.println("itemAction->outItem->return Error:"

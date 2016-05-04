@@ -11,4 +11,6 @@ public interface ItemInfoMapper {
 	List<ItemInfo> selectByExample(ItemInfoExample example);
 	
 	Integer selectStocksById(String itemId);
+
+	List<ItemInfo> selectByStocks();
 }

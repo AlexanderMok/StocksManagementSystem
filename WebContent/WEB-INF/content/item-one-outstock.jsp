@@ -134,7 +134,7 @@
 </body>
 <script>
 $(function(){
-	$("#title").focus();
+	$("#outId").focus();
 	
 	var num = $(".outNum");
 	num.blur(function(){
