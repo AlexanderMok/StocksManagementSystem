@@ -74,13 +74,16 @@
 							</tr>
 							<tr>
 								<th>进货价格（成本价格）</th>
-								<td><input class="common-text price"
+								<td>
+									<input class="common-text price"
 									 size="50" type="text"
-									value="${importPrice}" disabled></td>
+									value="${importPrice}" disabled>
+									
+								</td>
 							</tr>
 							<tr>
 								<th>出货编号</th>
-								<td><input class="common-text" name="exportBill.exportId" id="title"
+								<td><input class="common-text" name="exportBill.exportId" id="outId"
 									size="50" type="text" placeholder="请输入出货编号" required></td>
 							</tr>
 							<tr>
@@ -132,7 +135,42 @@
 <script>
 $(function(){
 	$("#title").focus();
+	
+	var num = $(".outNum");
+	num.blur(function(){
+		var pnum = parseInt(num.val());
+		var ps = parseInt(${stocks});
+		if( pnum > ps) {
+			alert("注意，没那么多库存！");
+			num.focus();
+		}
+	});
 });
+</script>
+<script>
+    chk();
+	function chk() {
+		var oinput = $("#outId");
+		oinput.blur(function(){
+			ajaxChk(oinput);
+		});
+	}
+	
+	function ajaxChk(obj){
+		var value = $("#outId").val();
+		$.ajax({
+			type:"get",
+			url:"item!findExportOne?exportId=" + value,
+			success:function(res){
+				if(res==value){
+					$("#outId").val("该编号已经存在，请保证唯一性");
+					obj.focus();
+				}
+			},
+			error:function(res){
+			}
+		});
+	}
 </script>	
 <script type="text/javascript" src="resources/back_end/js/inputPosition.js"></script>
 <script type="text/javascript" src="resources/back_end/js/page.js"></script>

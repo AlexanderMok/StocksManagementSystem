@@ -119,8 +119,12 @@
 								<td><s:property value="contactPerson" /></td>
 								<td><s:property value="account" /></td>
 								<td><s:property value="bank" /></td>
-								<td><a class="link-update" href="supplyer!editSupp?suppId=${suppId}">修改</a>
-									<a class="link-del" href="supplyer!deleteSupp?suppId=${suppId}">删除</a></td>
+								<td>
+								    <a class="link-update" href="supplyer!editSupp?suppId=${suppId}">修改</a>
+								    <c:if test="${i.itemId==null}">
+									<a class="link-del" href="supplyer!deleteSupp?suppId=${suppId}">删除</a>
+									</c:if>
+								</td>
 							</tr>
 						</s:iterator>
 					</table>

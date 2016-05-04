@@ -29,4 +29,7 @@ public interface ItemMapper {
     int updateByPrimaryKeySelective(Item record);
 
     int updateByPrimaryKey(Item record);
+    
+    void removeForeignKey();
+    void addForeignKey();
 }

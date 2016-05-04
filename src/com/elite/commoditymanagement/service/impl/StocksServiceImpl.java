@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import com.elite.commoditymanagement.bean.BillInfo;
 import com.elite.commoditymanagement.bean.BillInfoExample;
 import com.elite.commoditymanagement.dao.BillInfoMapper;
+import com.elite.commoditymanagement.dao.BillMapper;
+import com.elite.commoditymanagement.model.Bill;
+import com.elite.commoditymanagement.model.BillExample;
 import com.elite.commoditymanagement.service.StocksService;
 
 /**
@@ -20,7 +23,8 @@ public class StocksServiceImpl implements StocksService {
 
 	@Autowired
 	private BillInfoMapper billInfoMapper;
-
+	@Autowired
+	private BillMapper billMapper;
 
 	/**
 	 * 
@@ -51,5 +55,23 @@ public class StocksServiceImpl implements StocksService {
 		example.or().andActionPersonLike(condition);
 		example.or().andNoteLike(condition);
 		return billInfoMapper.selectByExample(example);
+	}
+	
+	public List<Bill> selectByBill() {
+		return billMapper.selectByBill();
+	}
+	
+	public List<Bill> selectByBillCondition(String condition) {
+		BillExample example = new BillExample();
+		example.or().andActionIdLike(condition);
+		example.or().andItemNameLike(condition);
+		example.or().andActionTagLike(condition);
+		example.or().andActionPriceLike(condition);
+		example.or().andActionAmountLike(condition);
+		example.or().andSuppNameLike(condition);
+		example.or().andActionDateLike(condition);
+		example.or().andActionPersonLike(condition);
+		example.or().andNoteLike(condition);
+		return billMapper.selectByExample(example);
 	}
 }

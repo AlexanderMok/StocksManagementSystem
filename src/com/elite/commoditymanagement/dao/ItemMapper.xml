@@ -280,4 +280,10 @@
       activity_id = #{activityId,jdbcType=BIGINT}
     where item_id = #{itemId,jdbcType=VARCHAR}
   </update>
+  <update id="removeForeignKey">
+  	set foreign_key_checks=0
+  </update>
+  <update id="addForeignKey">
+  	set foreign_key_checks=1
+  </update>
 </mapper>

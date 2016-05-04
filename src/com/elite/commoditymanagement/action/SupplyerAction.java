@@ -5,6 +5,8 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.json.JSONObject;
+
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
@@ -138,6 +140,15 @@ public class SupplyerAction extends BaseAction {
 			return new DefaultHttpHeaders("error").disableCaching();
 		}	
 		return new DefaultHttpHeaders("supplyer-edit").disableCaching();
+	}
+	/**
+	 * ajax检验编号唯一性
+	 * @return
+	 */
+	public HttpHeaders findOne() {
+		supplyer = supplyerService.selectByPrimaryKey(suppId);
+		this.getWriter().write(JSONObject.fromObject(supplyer).toString());
+		return null;
 	}
 
 	/**

@@ -102,10 +102,10 @@
 							<td>操作时间</td>
 							<td>操作人</td>
 							<td>备注</td>
-							<td>操作</td>
+							<!-- <td>操作</td> -->
 						</tr>
 
-						<s:iterator value="billList" var="i">
+						<s:iterator value="billInfoList" var="i">
 							<tr>
 								<td class="tc"></td>
 								<td><s:property value="id" /></td>
@@ -136,10 +136,10 @@
 								</td>
 								<td><s:property value="actionPerson" /></td>
 								<td><s:property value="note" /></td>
-								<td>
-									<a class="link-update" href="item!inItemOne?itemId=${i.itemId}&itemName=${i.itemName}&unitName=${i.unitName}&cataName=${i.cataName}&suppId=${i.suppId}&suppName=${i.suppName}&actionPrice=${i.actionPrice}">商品进货</a>
-									<a class="link-update" href="item!outItemOne?itemId=${i.itemId}&itemName=${i.itemName}&unitName=${i.unitName}&cataName=${i.cataName}&suppId=${i.suppId}&suppName=${i.suppName}&actionPrice=${i.actionPrice}">商品出货</a>
-								</td>
+								<%-- <td>
+									<a class="link-update" href="item!inItemOne?itemId=${i.itemId}&itemName=${i.itemName}&unitName=${i.unitName}&cataName=${i.cataName}&suppId=${i.suppId}&suppName=${i.suppName}&importPrice=${i.actionPrice}">商品进货</a>
+									<a class="link-update" href="item!outItemOne?itemId=${i.itemId}&itemName=${i.itemName}&unitName=${i.unitName}&cataName=${i.cataName}&suppId=${i.suppId}&suppName=${i.suppName}&retailPrice=${i.actionPrice}">商品出货</a>
+								</td> --%>
 							</tr>
 						</s:iterator>
 					</table>
@@ -170,6 +170,7 @@
 								</c:if>
 								&nbsp;&nbsp;第&nbsp;<input type="text" id="toPage"/>&nbsp;页&nbsp;&nbsp;
 								<input type="submit" id="btn_page" class="btn" value="确定"/>
+								<a href="excel!billInfoExcel" class="btn">导出报表</a>
 							</div>
 					<input type="hidden" id="lastPage" value="${lastPage}"/>
 					<input type="hidden" id="curPage" value="${curPage}"/>

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.elite.commoditymanagement.bean.BillInfo;
+import com.elite.commoditymanagement.model.Bill;
 import com.elite.commoditymanagement.service.StocksService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -27,7 +28,8 @@ public class StocksAction extends BaseAction {
 	@Autowired
 	private StocksService stocksService;
 	
-	private List<BillInfo> billList;
+	private List<BillInfo> billInfoList;
+	private List<Bill> billList;
 
 	//分页
 	private Integer curPage = 1;//第一页
@@ -41,7 +43,7 @@ public class StocksAction extends BaseAction {
 	
 	/**
 	 * @author 莫庆来
-	 * @DESCRIPTION 进货出货流水记录
+	 * @DESCRIPTION 进货出货流水记录,视图查询
 	 * @return 流水记录页面
 	 */
 	public HttpHeaders list() {
@@ -53,11 +55,11 @@ public class StocksAction extends BaseAction {
 				PageHelper.orderBy(order +" "+ sequence);
 			}
 			if(condition!=null && !condition.equals("")) {
-				billList = stocksService.selectByCondition("%" + condition + "%");
+				billInfoList = stocksService.selectByCondition("%" + condition + "%");
 			}else{
-				billList = stocksService.selectByView();
+				billInfoList = stocksService.selectByView();
 			}
-			PageInfo<BillInfo> page = new PageInfo<BillInfo>(billList);
+			PageInfo<BillInfo> page = new PageInfo<BillInfo>(billInfoList);
 			lastPage = page.getLastPage();
 			
 		} catch (Exception e) {
@@ -71,13 +73,45 @@ public class StocksAction extends BaseAction {
 		return new DefaultHttpHeaders("bill-list").disableCaching();
 	}
 	
+	
+	public HttpHeaders billList() {
+		try {
+			log.debug("doing execute stocks!billList....");
+			
+			PageHelper.startPage(curPage,pageSize);
+			if(order !=null && !order.equals("") && sequence != null && !sequence.equals("")){
+				PageHelper.orderBy(order +" "+ sequence);
+			}
+			if(condition!=null && !condition.equals("")) {
+				billList = stocksService.selectByBillCondition("%" + condition + "%");
+			}else{
+				billList = stocksService.selectByBill();
+			}
+			PageInfo<Bill> page = new PageInfo<Bill>(billList);
+			lastPage = page.getLastPage();
+			
+		} catch (Exception e) {
+			log.error("stocks!billList -error: " + e.getMessage());
+			System.out.println("stocksAction->billList->return Error:"
+					+ e.getStackTrace());
+			return new DefaultHttpHeaders("error").disableCaching();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		return new DefaultHttpHeaders("bill-noview-list").disableCaching();
+	}
+	
+	
 
-	public List<BillInfo> getBillList() {
-		return billList;
+	public List<BillInfo> getBillInfoList() {
+		return billInfoList;
 	}
 
 	
-	
+	public List<Bill> getBillList() {
+		return billList;
+	}
+
 	//分页
 	public Integer getCurPage() {
 		return curPage;

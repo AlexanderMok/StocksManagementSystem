@@ -17,6 +17,7 @@ public interface BillMapper {
     int insertSelective(Bill record);
 
     List<Bill> selectByExample(BillExample example);
+    List<Bill> selectByBill();
     
     Bill selectByPrimaryKey(Long id);
 

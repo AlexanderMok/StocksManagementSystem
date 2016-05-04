@@ -33,7 +33,7 @@ public class UploadAction extends BaseAction {
 		HttpServletRequest request = this.getRequest();
 		PrintWriter writer = this.getWriter();
 		//保存文件的目录
-		String path = request.getServletContext().getRealPath("/resources/upload/itemPic");
+		String path = request.getSession().getServletContext().getRealPath("/resources/upload/itemPic");
 		try {
 			File f = this.getFile();
 			if (this.getFileName().endsWith(".exe")) {

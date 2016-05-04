@@ -40,4 +40,8 @@ public class ImportBillServiceImpl implements ImportBillService {
 		return list.size() > 0 ? list : null;
 	}
 
+	public ImportBill selectByPrimaryKey(String importId) {
+		return importBillMapper.selectByPrimaryKey(importId);
+	}
+
 }

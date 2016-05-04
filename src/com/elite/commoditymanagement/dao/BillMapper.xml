@@ -13,6 +13,21 @@
     <result column="action_person" property="actionPerson" jdbcType="VARCHAR" />
     <result column="note" property="note" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="BillMap" type="com.elite.commoditymanagement.model.Bill" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="action_tag" property="actionTag" jdbcType="INTEGER" />
+    <result column="action_id" property="actionId" jdbcType="VARCHAR" />
+    <result column="item_id" property="itemId" jdbcType="VARCHAR" />
+    <result column="action_price" property="actionPrice" jdbcType="DOUBLE" />
+    <result column="action_amount" property="actionAmount" jdbcType="INTEGER" />
+    <result column="supp_id" property="suppId" jdbcType="VARCHAR" />
+    <result column="action_date" property="actionDate" jdbcType="DATE" />
+    <result column="action_person" property="actionPerson" jdbcType="VARCHAR" />
+    <result column="note" property="note" jdbcType="VARCHAR" />
+    <result column="supp_name" property="suppName" jdbcType="VARCHAR" />
+    <result column="item_name" property="itemName" jdbcType="VARCHAR" />
+  </resultMap>
+  
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -95,6 +110,16 @@
     from tbl_bill
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="selectByBill" resultMap="BillMap">
+  select
+  id, action_tag, action_id, tbl_bill.item_id, action_price, action_amount, tbl_bill.supp_id, action_date, 
+  action_person, tbl_bill.note ,tbl_suppliers.supp_name,tbl_items.item_name  
+  from 
+  tbl_bill join tbl_suppliers join tbl_items 
+  where tbl_bill.supp_id = tbl_suppliers.supp_id and tbl_bill.item_id = tbl_items.item_id
+  </select>
+  
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from tbl_bill
     where id = #{id,jdbcType=BIGINT}

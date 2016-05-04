@@ -44,7 +44,7 @@
 							<th></th>
 						</tr>
 					</table>
-					<form id="search">
+				<form id="search">
                     <table class="search-tab">
                         <tr>
                             <th width="120"><a id="updateOrd" href="javascript:void(0)"><i class="icon-font"></i></a></th>
@@ -56,20 +56,18 @@
                 <form id="order">
                     <table class="search-tab">
                         <tr>
-                            <th width="120"><a id="updateOrd" href="javascript:void(0)"><i class="icon-font"></i></a></th>
+                            <th width="120"><a id="updateOrd" href="javascript:void(0)"><i class="icon-font"></i></a> </th>
                             <td>
                                 <select name="order" id="orderBy">
                                     <option value="-1">选择</option>
-                                    <option value="safe_amount">默认排序</option>
+                                    <option value="action_date">操作时间</option>
+                                    <option value="action_tag">操作行为</option>
                                     <option value="item_name">商品名称</option>
-                                    <option value="stocks">库存</option>
-                                    <option value="retail_price">零售价</option>
-                                    <option value="import_price">进货价</option>
-                                    <option value="catagorgy_id">商品类别</option>
+                                    <option value="action_price">操作价格</option>
+                                    <option value="action_amount">操作数量</option>
                                     <option value="supp_name">供应商</option>
-                                    <option value="contact_person">联系人</option>
-                                    <option value="phone">联系电话</option>
-                                    <option value="unit_name">商品单位</option>
+                                    <option value="action_person">操作人</option>
+                                    <option value="note">备注</option>
                                 </select>
                                 <select name="sequence" id="sequence">
                                 	<option value="-1">选择</option>
@@ -86,97 +84,97 @@
 		<div class="result-wrap">
 				<div class="result-title">
 					<div class="result-list">
-						<a href="item!add"><i class="icon-font"></i>添加商品</a>
+						<a href="supplyer!addSupp"><i class="icon-font"></i>添加商品</a> 
 					</div>
 				</div>
 				<div class="result-content">
-				
 					<table class="result-tab" width="100%" style="text-align: center;">
-						<tr class="result-head">
+						<tr>
 							<td class="tc"><input class="allChoose" name=""
 								type="checkbox"></td>
-							<td>商品编号</td>
+							<td>流水编号</td>
+							<td>操作行为</td>
+							<td>操作编号</td>
 							<td>商品名称</td>
-							<td>商品图片</td>
-							<td>商品种类</td>
-							<td>零售价</td>
-							<td>进货价</td>
-							<td>库存</td>
-							<td>单位</td>
+							<td>操作价格</td>
+							<td>操作数量</td>
 							<td>供应商</td>
-							<td>联系电话</td>
-							<td>联系人</td>
+							<td>操作时间</td>
+							<td>操作人</td>
 							<td>备注</td>
-							<td>操作</td>
+							<!-- <td>操作</td> -->
 						</tr>
 
-						<s:iterator value="infoList" var="i">
-							<tr class="result-body">
+						<s:iterator value="billList" var="i">
+							<tr>
 								<td class="tc"></td>
-								<td><s:property value="itemId" /></td>
-								<td><s:property value="itemName" /></td>
-								<td width=20%>
-									<s:iterator value="itemPaths">
-										<img src="<s:property/>" class="itemPic">
-									</s:iterator>
-								</td>
-								<td><s:property value="cataName" /></td>
-								<td><s:property value="retailPrice" /></td>
-								<td><s:property value="importPrice" /></td>
+								<td><s:property value="id" /></td>
 								<td>
-									<c:if test="${i.stocks<i.safeAmount}">
-										<span style="color:red">
-											<s:property value="stocks" />
-										</span>	
-									</c:if>
-									<c:if test="${i.stocks>=i.safeAmount}">
-										<span style="color:green">
-											<s:property value="stocks" />
-										</span>	
-									</c:if>
+								<c:if test="${i.actionTag=='1'}"><span style="color:green">进货</span></c:if>
+								<c:if test="${i.actionTag=='0'}"><span style="color:red">出货</span></c:if>
 								</td>
-								<td><s:property value="unitName" /></td>
+								<td><s:property value="actionId" /></td>
+								<td>
+									<s:property value="itemName" />
+								</td>
+								<td><s:property value="actionPrice" /></td>
+								<td>
+									<c:if test="${i.actionTag=='1'}">
+										<span style="color:green">+<s:property value="actionAmount" /></span>
+									</c:if>
+									<c:if test="${i.actionTag=='0'}">
+										<span style="color:red">-<s:property value="actionAmount" /></span>
+									</c:if>
+									
+								</td>
 								<td><s:property value="suppName" /></td>
-								<td><s:property value="phone" /></td>
-								<td><s:property value="contactPerson" /></td>
-								<td><s:property value="note" /></td>
 								<td>
-									<a class="link-update" href="item!editItemOne?itemId=${i.itemId}&itemName=${i.itemName}&unitName=${i.unitName}&cataName=${i.cataName}&suppId=${i.suppId}&suppName=${i.suppName}&retailPrice=${i.retailPrice}&safeAmount=${i.safeAmount}">修改商品</a>
-									<a class="link-update" href="item!inItemOne?itemId=${i.itemId}&itemName=${i.itemName}&unitName=${i.unitName}&cataName=${i.cataName}&suppId=${i.suppId}&suppName=${i.suppName}&stocks=${i.stocks}&retailPrice=${i.retailPrice}&importPrice=${i.importPrice}">商品进货</a>
-									<c:if test="${i.stocks>0}">
-										<a class="link-update" href="item!outItemOne?itemId=${i.itemId}&itemName=${i.itemName}&unitName=${i.unitName}&cataName=${i.cataName}&suppId=${i.suppId}&suppName=${i.suppName}&stocks=${i.stocks}&retailPrice=${i.retailPrice}&importPrice=${i.importPrice}">商品出货</a>
-									</c:if>
-									<a class="link-del" href="item!deleteItem?itemId=${i.itemId}">删除</a>
+									<s:date name="actionDate" format="yyyy-MM-dd"/>
 								</td>
+								<td><s:property value="actionPerson" /></td>
+								<td><s:property value="note" /></td>
+								<%-- <td>
+									<a class="link-update" href="item!inItemOne?itemId=${i.itemId}&itemName=${i.itemName}&unitName=${i.unitName}&cataName=${i.cataName}&suppId=${i.suppId}&suppName=${i.suppName}&importPrice=${i.actionPrice}">商品进货</a>
+									<a class="link-update" href="item!outItemOne?itemId=${i.itemId}&itemName=${i.itemName}&unitName=${i.unitName}&cataName=${i.cataName}&suppId=${i.suppId}&suppName=${i.suppName}&retailPrice=${i.actionPrice}">商品出货</a>
+								</td> --%>
 							</tr>
 						</s:iterator>
 					</table>
-				</div>
-				<form name="item">
-						<div class="page_ctrl">
+					
+					<form name="stocks">
+							<div class="loading">
+							        <span>${sessionScope.msg}</span>
+							        <span></span>
+							        <span></span>
+							        <span></span>
+							        <span></span>
+							</div>
+							<div class="page_ctrl">
 								<c:if test="${curPage != 1}">
-									<a href="item!list?curPage=1&pageSize=${pageSize}&order=${order}&sequence=${sequence}">首页</a>&nbsp;
-									<a href="item!list?curPage=${curPage - 1}&pageSize=${pageSize}&order=${order}&sequence=${sequence}">上一页</a>&nbsp;
+									<a href="stocks!list?curPage=1&pageSize=${pageSize}&order=${order}&sequence=${sequence}">首页</a>&nbsp;
+									<a href="stocks!list?curPage=${curPage - 1}&pageSize=${pageSize}&order=${order}&sequence=${sequence}">上一页</a>&nbsp;
 								</c:if> 
 								<c:if test="${curPage == 1}">
 									首页&nbsp;
 								</c:if> 
 								第${curPage}页&nbsp;&nbsp;共${lastPage}页								
 								<c:if test="${curPage != lastPage}">
-									<a href="item!list?curPage=${curPage+1}&pageSize=${pageSize}&order=${order}&sequence=${sequence}">下一页</a>&nbsp;
-									<a href="item!list?curPage=${lastPage}&pageSize=${pageSize}&order=${order}&sequence=${sequence}">尾页</a>&nbsp;
+									<a href="stocks!list?curPage=${curPage+1}&pageSize=${pageSize}&order=${order}&sequence=${sequence}">下一页</a>&nbsp;
+									<a href="stocks!list?curPage=${lastPage}&pageSize=${pageSize}&order=${order}&sequence=${sequence}">尾页</a>&nbsp;
 								</c:if>
 								<c:if test="${curPage == lastPage}">
 									尾页
-								</c:if>&nbsp;&nbsp;&nbsp;第&nbsp;<input type="text" id="toPage"/>&nbsp;页&nbsp;&nbsp;
-								<input type="submit" id="btn_page" class="btn btn-primary" value="确定"/>&nbsp;
-								<a href="excel" class="btn btn-primary" >导出报表</a>
-						</div>
+								</c:if>
+								&nbsp;&nbsp;第&nbsp;<input type="text" id="toPage"/>&nbsp;页&nbsp;&nbsp;
+								<input type="submit" id="btn_page" class="btn" value="确定"/>
+								<a href="excel!billExcel" class="btn">导出报表</a>
+							</div>
 					<input type="hidden" id="lastPage" value="${lastPage}"/>
 					<input type="hidden" id="curPage" value="${curPage}"/>
 					<input type="hidden" id="varOrder" value="${order}"/>
 					<input type="hidden" id="varSeq" value="${sequence}"/>
-				</form>
+					</form>
+				</div>
 		</div>
 	</div>
 <script type="text/javascript" src="resources/back_end/js/page.js"></script>

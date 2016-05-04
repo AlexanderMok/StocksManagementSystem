@@ -11,4 +11,6 @@ public interface ImportBillService {
 	List<ImportBill> selectByExample();
 	
 	List<ImportBill> selectByItemId(String itemId);
+	
+	ImportBill selectByPrimaryKey(String importId);
 }

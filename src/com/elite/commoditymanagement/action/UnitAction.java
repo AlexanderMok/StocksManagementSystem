@@ -135,7 +135,7 @@ public class UnitAction extends BaseAction {
 	 */
 	public HttpHeaders deleteUnit() {
 		unitService.deleteByPrimaryKey(unitId);
-		return new DefaultHttpHeaders("unit-list").disableCaching();
+		return new DefaultHttpHeaders("unit-list").renderResult(SUCCESS);
 	}
 
 	public List<Unit> getUnitList() {

@@ -44,4 +44,8 @@ public class ExportBillServiceImpl implements ExportBillService {
 		return list.size() > 0 ? list : null;
 	}
 
+	public ExportBill selectByPrimaryKey(String exportId) {
+		return exportBillMapper.selectByPrimaryKey(exportId);
+	}
+
 }

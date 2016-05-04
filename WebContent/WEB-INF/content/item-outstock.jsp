@@ -34,11 +34,6 @@
 					<table class="insert-tab" width="100%">
 						<tbody>
 							<tr>
-								<th>出货编号</th>
-								<td><input class="common-text" name="exportBill.exportId"
-									size="50" type="text" placeholder="请输入出货编号" required></td>
-							</tr>
-							<tr>
 								<th>商品名：</th>
 								<td><select name="exportBill.itemId" class="btn btn3" id="selecItem">
 										<option value="-1">--请选择商品--</option>
@@ -47,6 +42,11 @@
 													value="itemName" /> : 成本价 <s:property value="importPrice"/></option>
 										</s:iterator>
 								</select></td>
+							</tr>
+							<tr>
+								<th>出货编号</th>
+								<td><input class="common-text" name="exportBill.exportId" id="outId"
+									size="50" type="text" placeholder="请输入出货编号" required></td>
 							</tr>
 							<tr>
 								<th>供应商：</th>
@@ -93,6 +93,7 @@
 							</tr>
 						</tbody>
 					</table>
+					<input type="hidden" id="stocks">
 				</form>
 			</div>
 		</div>
@@ -114,14 +115,69 @@ $(document).ready(function(){
 				num.attr("placeholder","当前商品库存量为" + json[0].stocks);
 				$("#suppId").val(json[0].suppId);
 				$("#suppName").val(json[0].suppName);
+				$(".price").val(json[0].retailPrice);
+				$("#stocks").val(json[0].stocks);
 			},
 			error: function(obj,res) {
-				alert("获取库存有错误" + res);
+// 				alert("获取库存有错误" + res);
 			}
 		});
 	});
+	num.blur(function(){
+		var pnum = parseInt(num.val())
+		var ps = parseInt($("#stocks").val());
+		if( pnum > ps ) {
+			alert("注意，没那么多库存！");
+			num.focus();
+		}
+	});
+	
+	
+	var oinput = $("#outId");
+	oinput.blur(function(){
+		ajaxChk(oinput);
+	});
+	
+	function ajaxChk(obj){
+		var value = $("#outId").val();
+		$.ajax({
+			type:"get",
+			url:"item!findExportOne?exportId=" + value,
+			success:function(res){
+				if(res==value){
+					$("#outId").val("该编号已经存在，请保证唯一性");
+					obj.focus();
+				}
+			},
+			error:function(res){
+			}
+		});
+	}
+	
 });
-</script>	
+</script>
+<%-- <script>
+    chk();
+	function chk() {
+		
+	}
+	
+	function ajaxChk(obj){
+		var value = $("#outId").val();
+		$.ajax({
+			type:"get",
+			url:"item!findExportOne?exportId=" + value,
+			success:function(res){
+				if(res==value){
+					$("#outId").val("该编号已经存在，请保证唯一性");
+					obj.focus();
+				}
+			},
+			error:function(res){
+			}
+		});
+	}
+</script>	 --%>
 <script type="text/javascript" src="resources/back_end/js/inputPosition.js"></script>
 <script type="text/javascript" src="resources/back_end/js/page.js"></script>
 </html>

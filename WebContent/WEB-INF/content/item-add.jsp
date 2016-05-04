@@ -70,7 +70,7 @@
 							</tr>
 							<tr>
 								<th>商品编号：</th>
-								<td><input class="common-text required" id="title"
+								<td><input class="common-text required" id="itemId"
 									name="item.itemId" size="50" placeholder="请输入商品编号，确认后不可更改" type="text"
 									required></td>
 							</tr>
@@ -126,4 +126,30 @@
 <script type="text/javascript" src="resources/public/js/ajaxupload.js"></script>
 <script type="text/javascript" src="resources/public/js/upload_pic.js"></script>
 <script type="text/javascript" src="resources/back_end/js/page.js"></script>
+<script>
+    chk();
+	function chk() {
+		var oinput = $("#itemId");
+		oinput.blur(function(){
+			ajaxChk(oinput);
+		});
+	}
+	
+	function ajaxChk(obj){
+		var value = $("#itemId").val();
+		$.ajax({
+			type:"get",
+			url:"item!findOne?itemId=" + value,
+			success:function(res){
+				if(res!='null'){
+					alert("该编号已经存在，请保证唯一性");
+					obj.focus();
+				}
+			},
+			error:function(res){
+				alert("error" + res);
+			}
+		});
+	}
+</script>
 </html>

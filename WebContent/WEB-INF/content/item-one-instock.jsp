@@ -69,7 +69,7 @@
 							</tr>
 							<tr>
 								<th>进货编号</th>
-								<td><input class="common-text" name="importBill.importId" id="title"
+								<td><input class="common-text" name="importBill.importId" id="inId"
 									size="50" type="text" placeholder="请输入进货编号" required></td>
 							</tr>
 							<tr>
@@ -82,7 +82,7 @@
 								<th>进货价格（成本价）</th>
 								<td><input class="common-text price"
 									name="importBill.importPrice" size="50" type="text"
-									placeholder="请输入价格" value="${importPrice}" required></td>
+									placeholder="请输入价格" value="${importPrice}${actionPrice}" required></td>
 							</tr>
 							<tr>
 								<th>时间：</th>
@@ -124,5 +124,30 @@
 $(function(){
 	$("#title").focus();
 });
-</script>	
+</script>
+<script>
+    chk();
+	function chk() {
+		var oinput = $("#inId");
+		oinput.blur(function(){
+			ajaxChk(oinput);
+		});
+	}
+	
+	function ajaxChk(obj){
+		var value = $("#inId").val();
+		$.ajax({
+			type:"get",
+			url:"item!findImportOne?importId=" + value,
+			success:function(res){
+				if(res==value){
+					$("#inId").val("该编号已经存在，请保证唯一性");
+					obj.focus();
+				}
+			},
+			error:function(res){
+			}
+		});
+	}
+</script>		
 </html>

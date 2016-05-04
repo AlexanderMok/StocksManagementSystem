@@ -10,4 +10,6 @@ public interface ExportBillService {
 	public List<ExportBill> selectByExample();
 
 	public List<ExportBill> selectByItemId(String itemId);
+
+	public ExportBill selectByPrimaryKey(String exportId);
 }

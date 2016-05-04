@@ -34,11 +34,6 @@
 					<table class="insert-tab" width="100%">
 						<tbody>
 							<tr>
-								<th>进货编号</th>
-								<td><input class="common-text" name="importBill.importId"
-									size="50" type="text" placeholder="请输入进货编号" required></td>
-							</tr>
-							<tr>
 								<th>商品名：</th>
 								<td><select name="importBill.itemId" class="btn btn3" id="selecItem">
 										<option value="-1">--请选择商品--</option>
@@ -47,6 +42,11 @@
 													value="itemName" /></option>
 										</s:iterator>
 								</select></td>
+							</tr>
+							<tr>
+								<th>进货编号</th>
+								<td><input class="common-text" name="importBill.importId" id="inId"
+									size="50" type="text" placeholder="请输入进货编号" required></td>
 							</tr>
 							<tr>
 								<th>供应商：</th>
@@ -119,6 +119,31 @@ $(document).ready(function(){
 		});
 	});
 });
+</script>
+<script>
+    chk();
+	function chk() {
+		var oinput = $("#inId");
+		oinput.blur(function(){
+			ajaxChk(oinput);
+		});
+	}
+	
+	function ajaxChk(obj){
+		var value = $("#inId").val();
+		$.ajax({
+			type:"get",
+			url:"item!findImportOne?importId=" + value,
+			success:function(res){
+				if(res==value){
+					$("#inId").val("该编号已经存在，请保证唯一性");
+					obj.focus();
+				}
+			},
+			error:function(res){
+			}
+		});
+	}
 </script>	
 <script type="text/javascript" src="resources/back_end/js/inputPosition.js"></script>
 <script type="text/javascript" src="resources/back_end/js/page.js"></script>	

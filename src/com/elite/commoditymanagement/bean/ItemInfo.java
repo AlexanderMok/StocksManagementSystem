@@ -1,5 +1,8 @@
 package com.elite.commoditymanagement.bean;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 public class ItemInfo {
 	
 	private String itemId;
@@ -42,8 +45,8 @@ public class ItemInfo {
 		this.itemPaths = itemPaths;
 	}
 
-	public String getItemId() {
-		return itemId;
+	public String getItemId() throws UnsupportedEncodingException {
+		return URLDecoder.decode(itemId, "UTF-8");
 	}
 
 
@@ -52,8 +55,8 @@ public class ItemInfo {
 	}
 
 
-	public String getItemName() {
-		return itemName;
+	public String getItemName() throws UnsupportedEncodingException {
+		return URLDecoder.decode(itemName, "UTF-8");
 	}
 
 
@@ -62,8 +65,8 @@ public class ItemInfo {
 	}
 
 
-	public String getCataName() {
-		return cataName;
+	public String getCataName() throws UnsupportedEncodingException {
+		return URLDecoder.decode(cataName, "UTF-8");
 	}
 
 
@@ -92,8 +95,8 @@ public class ItemInfo {
 	}
 
 
-	public String getUnitName() {
-		return unitName;
+	public String getUnitName() throws UnsupportedEncodingException {
+		return URLDecoder.decode(unitName, "UTF-8");
 	}
 
 
@@ -112,8 +115,8 @@ public class ItemInfo {
 	}
 
 
-	public String getSuppName() {
-		return suppName;
+	public String getSuppName() throws UnsupportedEncodingException {
+		return URLDecoder.decode(suppName, "UTF-8");
 	}
 
 
@@ -142,8 +145,8 @@ public class ItemInfo {
 	}
 
 
-	public String getNote() {
-		return note;
+	public String getNote() throws UnsupportedEncodingException {
+		return URLDecoder.decode(note, "UTF-8");
 	}
 
 

@@ -781,6 +781,41 @@ public class BillExample {
             addCriterion("note not between", value1, value2, "note");
             return (Criteria) this;
         }
+        
+        
+        
+        
+        public Criteria andItemNameLike(String value) {
+            addCriterion("item_name like binary ", value, "itemName");
+            return (Criteria) this;
+        }
+        
+        public Criteria andSuppNameLike(String value) {
+        	addCriterion("supp_name like binary ", value, "suppName");
+        	return (Criteria) this;
+        }
+        
+        public Criteria andActionTagLike(String value) {
+            addCriterion("action_tag like binary ", value, "actionTag");
+            return (Criteria) this;
+        }
+        
+        public Criteria andActionPriceLike(String value) {
+            addCriterion("action_price like binary ", value, "actionPrice");
+            return (Criteria) this;
+        }
+        
+        public Criteria andActionAmountLike(String value) {
+            addCriterion("action_amount like binary ", value, "actionAmount");
+            return (Criteria) this;
+        }
+        
+        public Criteria andActionDateLike(String value) {
+            addCriterion("action_date like binary ", value, "actionDate");
+            return (Criteria) this;
+        }
+        
+        
     }
 
     public static class Criteria extends GeneratedCriteria {

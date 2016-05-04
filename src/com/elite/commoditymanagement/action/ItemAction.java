@@ -3,7 +3,6 @@ package com.elite.commoditymanagement.action;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +15,6 @@ import org.apache.struts2.rest.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import com.bmc.thirdparty.org.apache.commons.lang.CharSet;
 import com.elite.commoditymanagement.bean.ItemInfo;
 import com.elite.commoditymanagement.model.Catagorgy;
 import com.elite.commoditymanagement.model.ExportBill;
@@ -77,6 +75,9 @@ public class ItemAction extends BaseAction {
 	private Double importPrice;
 	private Integer stocks;
 	private Integer safeAmount;
+	private Double actionPrice;
+	private String importId;
+	private String exportId;
 	
 	//返回后台数据至前台
 	private List<ItemInfo> infoList;
@@ -149,7 +150,8 @@ public class ItemAction extends BaseAction {
 		bf.append("{stock:[{");
 		bf.append("\"stocks\"").append(":").append("\"").append(infos.getStocks()).append("\"").append(",");
 		bf.append("\"suppId\"").append(":").append("\"").append(infos.getSuppId()).append("\"").append(",");
-		bf.append("\"suppName\"").append(":").append("\"").append(infos.getSuppName()).append("\"");
+		bf.append("\"suppName\"").append(":").append("\"").append(infos.getSuppName()).append("\"").append(",");
+		bf.append("\"retailPrice\"").append(":").append("\"").append(infos.getRetailPrice()).append("\"");
 		bf.append("}]}");
 		this.getResponse().getWriter().write(bf.toString());
 		return null;
@@ -167,6 +169,15 @@ public class ItemAction extends BaseAction {
 		bf.append("\"suppName\"").append(":").append("\"").append(infos.getSuppName()).append("\"");
 		bf.append("}]}");
 		this.getResponse().getWriter().write(bf.toString());
+		return null;
+	}
+	/**
+	 * ajax检测itemId唯一性
+	 * @return
+	 */
+	public HttpHeaders findOne() {
+		item = itemService.selectByPrimaryKey(itemId);
+		this.getWriter().write(JSONObject.fromObject(item).toString());
 		return null;
 	}
 
@@ -346,6 +357,7 @@ public class ItemAction extends BaseAction {
 			log.debug("doing execute item!outItem....");
 			// 传入进货的商品,出货商品从进货商品里边取
 			List<ImportBill> inBillList = importBillService.selectByExample();
+			System.out.println("====" + inBillList.size());
 			Item item;
 			itemList = new ArrayList<Item>();
 			for (ImportBill importBill : inBillList) {
@@ -372,6 +384,7 @@ public class ItemAction extends BaseAction {
 			log.error("item!outItem -error: " + e.getMessage());
 			System.out.println("itemAction->outItem->return Error:"
 					+ e.getStackTrace());
+			e.printStackTrace();
 			return new DefaultHttpHeaders("error").disableCaching();
 		}
 		return new DefaultHttpHeaders("item-outstock").disableCaching();
@@ -392,6 +405,25 @@ public class ItemAction extends BaseAction {
 		}
 		return new DefaultHttpHeaders("item-list").renderResult(SUCCESS);
 	}
+	
+	/**
+	 * 
+	 * ajax检测进货编号唯一性
+	 */
+	public void findImportOne() {
+		ImportBill ib = importBillService.selectByPrimaryKey(importId);
+		String importId = ib.getImportId();
+		this.getWriter().write(importId);
+	}
+	/**
+	 * ajax检测出货编号唯一性
+	 */
+	public void findExportOne() {
+		ExportBill eb = exportBillService.selectByPrimaryKey(exportId);
+		String exportId = eb.getExportId();
+		this.getWriter().write(exportId);
+	}
+	
 
 	public Item getItem() {
 		return item;
@@ -424,6 +456,16 @@ public class ItemAction extends BaseAction {
 	public void setItemId(String itemId) {
 		this.itemId = itemId;
 	}
+	
+	public void setImportId(String importId) {
+		this.importId = importId;
+	}
+
+
+	public void setExportId(String exportId) {
+		this.exportId = exportId;
+	}
+
 	
 	public List<ItemInfo> getInfoList() {
 		return infoList;
@@ -583,6 +625,17 @@ public class ItemAction extends BaseAction {
 		this.safeAmount = safeAmount;
 	}
 
+
+	public Double getActionPrice() {
+		return actionPrice;
+	}
+
+
+	public void setActionPrice(Double actionPrice) {
+		this.actionPrice = actionPrice;
+	}
+
+	
 
 	//模糊查询条件，搜索功能用
 	public String getCondition() {

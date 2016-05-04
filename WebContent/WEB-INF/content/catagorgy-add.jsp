@@ -37,6 +37,7 @@
 								<th>上层分类 ：</th>
 								<td><select name="catagorgy.catagorgyParentId" class="btn btn3" id="title">
 										<option value="-1">--请选择--</option>
+										<option value="1">顶层类别</option>
 										<s:iterator value="catagorgyList" var="p">
 											<option value="${p.catagorgyParentId}"><s:property value="catagorgyName" /></option>
 										</s:iterator>	

@@ -35,13 +35,13 @@
 						<tbody>
 							<tr>
 								<th>供应商编号：</th>
-								<td><input class="common-text required" id="title"
+								<td><input class="common-text required" id="suppId"
 									name="supplyer.suppId" size="50" placeholder="请输入供应商编号,确认后不可更改"
 									type="text" required></td>
 							</tr>
 							<tr>
 								<th>供应商名称：</th>
-								<td><input class="common-text required" id="title"
+								<td><input class="common-text required" 
 									name="supplyer.suppName" size="50" placeholder="请输入供应商名称"
 									type="text" required></td>
 							</tr>
@@ -84,6 +84,32 @@
 		</div>
 	</div>
 	<!--/main-->
-<script type="text/javascript" src="resources/back_end/js/inputPosition.js"></script>	
 </body>
+<script type="text/javascript" src="resources/back_end/js/inputPosition.js"></script>
+<script>
+    chk();
+	function chk() {
+		var oinput = $("#suppId");
+		oinput.blur(function(){
+			ajaxChk(oinput);
+		});
+	}
+	
+	function ajaxChk(obj){
+		var value = $("#suppId").val();
+		$.ajax({
+			type:"get",
+			url:"supplyer!findOne?suppId=" + value,
+			success:function(res){
+				if(res!='null'){
+					alert("该编号已经存在，请保证唯一性");
+					obj.focus();
+				}
+			},
+			error:function(res){
+				alert("error" + res);
+			}
+		});
+	}
+</script>	
 </html>

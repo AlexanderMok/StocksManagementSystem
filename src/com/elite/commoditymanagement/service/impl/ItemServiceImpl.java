@@ -35,7 +35,10 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	public int deleteByPrimaryKey(String itemId) {
-		return itemMapper.deleteByPrimaryKey(itemId);
+		itemMapper.removeForeignKey();
+		itemMapper.deleteByPrimaryKey(itemId);
+		itemMapper.addForeignKey();
+		return 1;
 	}
 	
 	public List<ItemInfo> selectStocksById(String itemId, String importPrice) {
@@ -61,6 +64,7 @@ public class ItemServiceImpl implements ItemService {
 		example.or().andItemNameLike(condition);
 		example.or().andNoteLike(condition);
 		example.or().andRetailPriceLike(condition);
+		example.or().andImportPriceLike(condition);
 		example.or().andCataNameLike(condition);
 		example.or().andUnitNameLike(condition);
 		example.or().andContactPersonLike(condition);

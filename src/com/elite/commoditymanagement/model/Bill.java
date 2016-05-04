@@ -23,6 +23,9 @@ public class Bill {
 
     private String note;
     
+    private String suppName;
+    private String itemName;
+    
     public Long getId() {
         return id;
     }
@@ -102,5 +105,20 @@ public class Bill {
     public void setNote(String note) {
         this.note = note == null ? null : note.trim();
     }
+
+	public String getSuppName() {
+		return suppName;
+	}
+
+	public void setSuppName(String suppName) {
+		this.suppName = suppName;
+	}
+	public String getItemName() {
+		return itemName;
+	}
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
 
 }
