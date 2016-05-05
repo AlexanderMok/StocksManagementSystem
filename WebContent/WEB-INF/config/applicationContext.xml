@@ -18,24 +18,7 @@
 	<!-- 强制使用cglib代理  false为spring自动选择-->
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
 	
-	<!-- <bean id="dataSource"
-		class="org.logicalcobwebs.proxool.ProxoolDataSource">
-		<property name="driver">
-			<value>com.mysql.jdbc.Driver</value>
-		</property>
-		<property name="driverUrl" 
-			value="jdbc:mysql://127.0.0.1:3306/commodity?useUnicode=true&amp;characterEncoding=UTF8">
-		</property>
-		<property name="user" value="alex"></property>
-		<property name="password" value="sss"></property>
-		<property name="houseKeepingSleepTime" value="90000"></property>  
-		<property name="minimumConnectionCount" value="10"></property>  
-		<property name="maximumConnectionCount" value="100"></property>  
-		<property name="prototypeCount" value="10"></property>  
-		<property name="testBeforeUse" value="true"></property>  
-		<property name="houseKeepingTestSql" value="select 1"></property>  
-	</bean>
- -->
+	
 <!-- 	<bean id="dataSource" -->
 <!-- 		class="org.springframework.jdbc.datasource.DriverManagerDataSource"> -->
 <!-- 		<property name="driverClassName" value="org.logicalcobwebs.proxool.ProxoolDriver" /> -->

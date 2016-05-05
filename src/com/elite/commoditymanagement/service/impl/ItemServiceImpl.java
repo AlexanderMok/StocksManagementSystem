@@ -35,10 +35,8 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	public int deleteByPrimaryKey(String itemId) {
-		itemMapper.removeForeignKey();
-		itemMapper.deleteByPrimaryKey(itemId);
-		itemMapper.addForeignKey();
-		return 1;
+		
+		return itemMapper.deleteByPrimaryKey(itemId);
 	}
 	
 	public List<ItemInfo> selectStocksById(String itemId, String importPrice) {

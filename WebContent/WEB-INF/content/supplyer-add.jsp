@@ -107,7 +107,6 @@
 				}
 			},
 			error:function(res){
-				alert("error" + res);
 			}
 		});
 	}

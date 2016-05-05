@@ -3,7 +3,6 @@ package com.elite.commoditymanagement.action;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.json.JSONObject;
@@ -128,7 +127,6 @@ public class ItemAction extends BaseAction {
 			log.error("item!list -error: " + e.getMessage());
 			System.out.println("ItemAction->list->return Error:"
 					+ e.getStackTrace());
-			e.printStackTrace();
 			return new DefaultHttpHeaders("item-list").disableCaching();
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block
@@ -280,8 +278,13 @@ public class ItemAction extends BaseAction {
 	 * @return 删除后返回列表
 	 */
 	public HttpHeaders deleteItem() {
-		int i = itemService.deleteByPrimaryKey(itemId);
-		System.out.println("删除成功－－－－" + i);
+		try {
+			int i = itemService.deleteByPrimaryKey(itemId);
+			System.out.println("删除成功－－－－" + i);
+		} catch (Exception e) {
+			this.addActionError("该商品在其他表中存在，请先删除子表（依赖商品表）内容");
+			return new DefaultHttpHeaders("error");
+		}
 		return new DefaultHttpHeaders("item-list").renderResult(SUCCESS);
 	}
 
@@ -343,6 +346,7 @@ public class ItemAction extends BaseAction {
 			log.error("item!in -error: " + e.getMessage());
 			System.out.println("itemAction->in->return Error:"
 					+ e.getStackTrace());
+			this.addActionError("商品进货表单提交失败");
 			return new DefaultHttpHeaders("error").disableCaching();
 		}
 		return new DefaultHttpHeaders("item-list").renderResult(SUCCESS);
@@ -367,6 +371,7 @@ public class ItemAction extends BaseAction {
 			System.out.println("itemAction->outItem->return Error:"
 					+ e.getStackTrace());
 			e.printStackTrace();
+			this.addActionError("请先进货，再出货");
 			return new DefaultHttpHeaders("error").disableCaching();
 		}
 		return new DefaultHttpHeaders("item-outstock").disableCaching();
@@ -383,6 +388,7 @@ public class ItemAction extends BaseAction {
 			log.error("item!in -error: " + e.getMessage());
 			System.out.println("itemAction->in->return Error:"
 					+ e.getStackTrace());
+			this.addActionError("商品出货表单提交失败");
 			return new DefaultHttpHeaders("error").disableCaching();
 		}
 		return new DefaultHttpHeaders("item-list").renderResult(SUCCESS);
