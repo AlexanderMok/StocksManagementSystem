@@ -57,7 +57,7 @@
 							<tr>
 								<th>密码：</th>
 								<td><input class="common-text" name="user.password" size="50"
-									type="text" placeholder="请输入8位密码,数字、字母、下划线" required>
+									type="text" placeholder="请输入6到24位密码,数字、字母、下划线" required>
 									<span class="error">${sessionScope.msg}</span>
 								</td>
 							</tr>

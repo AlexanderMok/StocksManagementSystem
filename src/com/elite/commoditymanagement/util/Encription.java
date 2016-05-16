@@ -1,94 +1,79 @@
 package com.elite.commoditymanagement.util;
 
-import java.security.InvalidKeyException;
-import java.security.Key;
-import java.security.NoSuchAlgorithmException;
-import java.security.Security;
-import java.security.spec.InvalidKeySpecException;
-
 import javax.crypto.Cipher;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.DESedeKeySpec;
-import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
-//org.bouncycastle.jce.provider.BouncyCastleProvider类在commons-codec-1.6.jar包中
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-
+/**
+ * 
+ * AES加密对长度有限制
+ */
 public class Encription {
-    // 算法名称 
-    public static final String KEY_ALGORITHM = "desede";
-    // 算法名称/加密模式/填充方式 
-    public static final String CIPHER_ALGORITHM = "desede/CBC/NoPadding";
+    private static String charset = "utf-8";
 
-    /** 
-     * CBC加密 
-     * @param key 密钥 
-     * @param keyiv IV 
-     * @param data 明文 
-     * @return Base64编码包装后的密文 
-     * @throws Exception 
-     */
     @SuppressWarnings("restriction")
-    public static String des3EncodeCBC(byte[] key, byte[] keyiv, byte[] data) throws Exception {
-        Security.addProvider(new BouncyCastleProvider()); 
-        Key deskey = keyGenerator(new String(key));
-        Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
-        IvParameterSpec ips = new IvParameterSpec(keyiv);
-        cipher.init(Cipher.ENCRYPT_MODE, deskey, ips);
-        byte[] bOut = cipher.doFinal(data);
-        return new sun.misc.BASE64Encoder().encode(bOut);
-    }
+	public static String encrypt(String src, String key) {
+        try {
+            //创建密钥
+            byte[] buf_key = key.getBytes(charset);
+            //创建一个空的16位字节数组，默认0
+            byte[] buf = new byte[16];
+            //过短，补零；过长丢弃
+            for (int i = 0; i < buf_key.length && i < buf.length; i++) {
+                buf[i] = buf_key[i];
+            }
+            SecretKeySpec secretKey = new SecretKeySpec(buf,"AES");
 
-    /** 
-     *   
-     * 生成密钥key对象 
-     * @param KeyStr 密钥字符串 
-     * @return 密钥对象 
-     * @throws InvalidKeyException   
-     * @throws NoSuchAlgorithmException   
-     * @throws InvalidKeySpecException   
-     * @throws Exception 
-     */
-    private static Key keyGenerator(String keyStr) throws Exception {
-        byte input[] = HexString2Bytes(keyStr);
-        DESedeKeySpec KeySpec = new DESedeKeySpec(input);
-        SecretKeyFactory KeyFactory = SecretKeyFactory.getInstance(KEY_ALGORITHM);
-        return ((Key) (KeyFactory.generateSecret(((java.security.spec.KeySpec) (KeySpec)))));
-    }
+            //加密
+            Cipher cipher = Cipher.getInstance("AES");
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+            byte[] out = cipher.doFinal(src.getBytes(charset));
 
-    private static int parse(char c) {
-        if (c >= 'a') return (c - 'a' + 10) & 0x0f;
-        if (c >= 'A') return (c - 'A' + 10) & 0x0f;
-        return (c - '0') & 0x0f;
-    }
- 
-    // 从十六进制字符串到字节数组转换 
-    public static byte[] HexString2Bytes(String hexstr) {
-        byte[] b = new byte[hexstr.length() / 2];
-        int j = 0;
-        for (int i = 0; i < b.length; i++) {
-            char c0 = hexstr.charAt(j++);
-            char c1 = hexstr.charAt(j++);
-            b[i] = (byte) ((parse(c0) << 4) | parse(c1));
+            //转为串
+            return new sun.misc.BASE64Encoder().encode(out);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return b;
+
+        return null;
     }
 
-    /** 
-     * CBC解密 
-     * @param key 密钥 
-     * @param keyiv IV 
-     * @param data Base64编码的密文 
-     * @return 明文 
-     * @throws Exception 
-     */
-    public static byte[] des3DecodeCBC(byte[] key, byte[] keyiv, byte[] data) throws Exception {
-        Key deskey = keyGenerator(new String(key));
-        Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
-        IvParameterSpec ips = new IvParameterSpec(keyiv);
-        cipher.init(Cipher.DECRYPT_MODE, deskey, ips);
-        byte[] bOut = cipher.doFinal(data);
-        return bOut;
+    @SuppressWarnings("restriction")
+	public static String decrypt(String src, String key) {
+        try {
+            // 处理密钥
+            byte[] buf_key = key.getBytes(charset);
+            // 创建一个空的16位字节数组，默认0
+            byte[] buf = new byte[16];
+            // 过短，补零；过长丢弃
+            for (int i = 0; i < buf_key.length && i < buf.length; i++) {
+                buf[i] = buf_key[i];
+            }
+            SecretKeySpec secretKey = new SecretKeySpec(buf, "AES");
+
+            //密码还原
+            buf = new sun.misc.BASE64Decoder().decodeBuffer(src);
+
+            //解密
+            Cipher cipher = Cipher.getInstance("AES");
+            cipher.init(Cipher.DECRYPT_MODE, secretKey);
+            byte[] out = cipher.doFinal(buf);
+            //转为串
+            return new String(out,charset);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
+    public static void main(String[] args) {
+        String str = "12345678";
+        String key = Encription.encrypt(str, "Eng");
+        System.out.println(key);
+
+        String de = Encription.decrypt(key, "Eng");
+        System.out.println(de);
+    }
 }

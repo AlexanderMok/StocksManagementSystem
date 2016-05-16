@@ -28,7 +28,7 @@
 							class="admin_input_style" required /> 
 						</li>
 						<li><label for="password">密码：</label> 
-							<input type="password" name="password" placeholder="请输入8位密码，数字字母或下划线" id="pwd" size="40" 
+							<input type="password" name="password" placeholder="请输入6-24位密码，数字字母或下划线" id="pwd" size="40" 
 							class="admin_input_style" required />
 							
 						</li>
@@ -42,6 +42,18 @@
 			</div>
 		</div>
 	</div>
-<script type="text/javascript" src="resources/back_end/js/inputPosition.js"></script>
 </body>
+<script type="text/javascript" src="resources/back_end/js/inputPosition.js"></script>
+<script>
+/*密码验证*/
+function isPass(className) {
+	$(className).blur(function(){
+		if(/^[0-9a-zA-Z_]{6,24}$/.test(this.value)==false){
+			this.value="请输入8位密码，数字、字母、下划线";
+			this.focus();
+		}
+	});	
+}
+isPass("#pwd");
+</script>
 </html>

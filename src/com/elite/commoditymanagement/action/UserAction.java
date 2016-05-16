@@ -49,7 +49,7 @@ public class UserAction extends BaseAction {
 	//搜索条件
 	private String condition;
 	//密码验证，前段js已做一次验证，为防止用户浏览器禁用js，控制器内再次验证
-	private String msg = "请输入8位密码，数字、字母、下划线";
+	private String msg = "请输入6到24位密码，数字、字母、下划线";
 
 	/**
 	 * @author 莫庆来
@@ -60,12 +60,11 @@ public class UserAction extends BaseAction {
 		try {
 			log.info("doing execute user!valid....");
 			
-			if(password==null || "".equals(password) || !(password.matches("^[0-9a-zA-Z_]{8}$"))){
+			if(password==null || "".equals(password) || !(password.matches("^[0-9a-zA-Z_]{6,24}$"))){
 				this.setSessionAttr("Msg", msg);
-				System.out.print(msg);
 				return new DefaultHttpHeaders("user-login").disableCaching();
 			}
-			System.out.print("userName is "+userName+", password is "+password+".................");
+			log.debug("userName is "+userName+", password is "+password+".................");
 			
 			Boolean flag = userService.selectByNamePass(userName, password);
 
@@ -78,7 +77,7 @@ public class UserAction extends BaseAction {
 				this.getSession().setMaxInactiveInterval(60 * 15);// 15分钟
 				return new DefaultHttpHeaders("user-admin").disableCaching();
 			} else {
-				log.info("use not found and it is not valid==========");
+				log.error("user not found and it is not valid==========");
 				this.setSessionAttr("Msg", "用户名或密码有误");
 				return new DefaultHttpHeaders("user-login").disableCaching();
 			}
@@ -87,6 +86,7 @@ public class UserAction extends BaseAction {
 			System.out.println("UserAction->valid->return Error:"
 					+ e.getStackTrace());
 			e.printStackTrace();
+			this.addActionError("找不到用户名或密码");
 			return new DefaultHttpHeaders("error").disableCaching();
 		}
 	}
@@ -162,7 +162,7 @@ public class UserAction extends BaseAction {
 			roleList = roleService.selectAllRole();
 			password = user.getPassword();
 			
-			if(password!=null && !"".equals(password) && password.matches("^[0-9a-zA-Z_]{8}$")){
+			if(password!=null && !"".equals(password) && password.matches("^[0-9a-zA-Z_]{6,24}$")){
 				userService.insert(user);
 				this.getSession().removeAttribute("msg");
 			} else {
@@ -174,6 +174,7 @@ public class UserAction extends BaseAction {
 			log.error("user!saveUser -error: " + e.getMessage());
 			System.out.println("UserAction->saveUser->return Error:"
 					+ e.getStackTrace());
+			this.addActionError("添加用户失败，请检查相关字段是否为空");
 			return new DefaultHttpHeaders("error").disableCaching();
 		}
 		return new DefaultHttpHeaders("user-list").renderResult(SUCCESS);
@@ -214,7 +215,7 @@ public class UserAction extends BaseAction {
 			roleList = roleService.selectAllRole();
 			password = user.getPassword();
 			
-			if(password!=null && !"".equals(password) && password.matches("^[0-9a-zA-Z_]{8}$")){
+			if(password!=null && !"".equals(password) && password.matches("^[0-9a-zA-Z_]{6,24}$")){
 				userService.updateByPrimaryKeySelective(user);
 				this.getSession().removeAttribute("msg");
 			} else {

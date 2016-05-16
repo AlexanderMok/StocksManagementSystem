@@ -106,15 +106,7 @@ function isDate(className) {
 		}
 	});	
 }
-/*密码验证*/
-function isPass(className) {
-	$(className).blur(function(){
-		if(/^[0-9a-zA-Z_]{8}$/.test(this.value)==false){
-			this.value="请输入8位密码，数字、字母、下划线";
-			this.focus();
-		}
-	});	
-}
+
 
 function encode() {
 	for (var i = 0; i < document.links.length; i++) {

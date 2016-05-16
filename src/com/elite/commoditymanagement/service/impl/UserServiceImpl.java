@@ -26,10 +26,7 @@ public class UserServiceImpl implements UserService {
 	
 	public int insert(User user) throws Exception {
 		//加密数据
-		byte[] key = "6C4E60E55552386C759569836DC0F83869836DC0F838C0F7".getBytes();
-	    byte[] keyiv = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08 };
-	    byte[] data = user.getPassword().getBytes();
-	    String str = Encription.des3EncodeCBC(key, keyiv, data);
+	    String str = Encription.encrypt(user.getPassword(), "Eng");
 	    user.setPassword(str);
 		return userMapper.insert(user);
 	}
@@ -59,18 +56,14 @@ public class UserServiceImpl implements UserService {
 		return list.size() > 0 ? list : null;
 	}
 
-	@SuppressWarnings("restriction")
 	public Boolean selectByNamePass(String userName, String password) throws Exception {
-		byte[] key = "6C4E60E55552386C759569836DC0F83869836DC0F838C0F7".getBytes();
-		byte[] keyiv = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08 };
-		
         UserExample example = new UserExample();
 		Criteria criteria = example.createCriteria();
 		criteria.andUserNameEqualTo(userName);
 		//根据用户名查询数据，得到相应密码，再解密，对比是否匹配
 		String pass = userMapper.selectByExample(example).get(0).getPassword();
-		byte[] data = new sun.misc.BASE64Decoder().decodeBuffer(pass);
-		byte[] str = Encription.des3DecodeCBC(key, keyiv, data);
+		//加密，密钥为Eng
+		String str = Encription.decrypt(pass, "Eng");
 		
 		if(new String(str).equals(password)){
 			return true;
@@ -84,10 +77,7 @@ public class UserServiceImpl implements UserService {
 
 	public int updateByPrimaryKeySelective(User user) throws Exception {
 		//加密数据
-		byte[] key = "6C4E60E55552386C759569836DC0F83869836DC0F838C0F7".getBytes();
-		byte[] keyiv = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08 };
-		byte[] data = user.getPassword().getBytes();
-		String str = Encription.des3EncodeCBC(key, keyiv, data);
+		String str = Encription.encrypt(user.getPassword(), "Eng");
 		user.setPassword(str);
 		return userMapper.updateByPrimaryKeySelective(user);
 	}
